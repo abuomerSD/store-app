@@ -5,6 +5,8 @@ import { connectDB } from "./config/database";
 import { userRouter } from "./routes/user.route";
 import { errorHandler } from "./middlewares/errorHandler";
 import { swaggerSpec, swaggerUi } from "./swagger";
+import { authRouter } from "./routes/auth.route";
+import { notFoundMiddleware } from "./middlewares/notFound";
 
 const app = express();
 
@@ -26,6 +28,11 @@ if (NODE_ENV === "development") {
 
 // routes
 app.use("/api/users", userRouter);
+app.use("/api/auth", authRouter);
+
+// not found middleware
+
+app.use(notFoundMiddleware);
 
 // Global Error Handler
 
