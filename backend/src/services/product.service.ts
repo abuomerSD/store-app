@@ -33,7 +33,7 @@ const deleteById = async (id: string): Promise<IProduct | null> => {
 };
 
 const productService = {
-  // findAll,
+  findAll,
   findById,
   save,
   updateById,

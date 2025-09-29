@@ -24,16 +24,6 @@ const unitSchema = new mongoose.Schema(
             required: true,
           },
         },
-        abbreviation: {
-          en: {
-            type: String,
-            required: true,
-          },
-          ar: {
-            type: String,
-            required: true,
-          },
-        },
         conversionToBase: {
           type: Number,
           required: true,
@@ -60,4 +50,4 @@ const unitSchema = new mongoose.Schema(
 unitSchema.index({ unitType: 1 });
 unitSchema.index({ isActive: 1 });
 
-module.exports = mongoose.model("UnitDefinition", unitSchema);
+export const UnitDefinitionModel = mongoose.model("UnitDefinition", unitSchema);
