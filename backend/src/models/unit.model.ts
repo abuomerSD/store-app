@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const unitDefinitionSchema = new mongoose.Schema(
+const unitSchema = new mongoose.Schema(
   {
     unitType: {
       type: String,
@@ -57,7 +57,7 @@ const unitDefinitionSchema = new mongoose.Schema(
 );
 
 // Indexes
-unitDefinitionSchema.index({ unitType: 1 });
-unitDefinitionSchema.index({ isActive: 1 });
+unitSchema.index({ unitType: 1 });
+unitSchema.index({ isActive: 1 });
 
-module.exports = mongoose.model("UnitDefinition", unitDefinitionSchema);
+module.exports = mongoose.model("UnitDefinition", unitSchema);

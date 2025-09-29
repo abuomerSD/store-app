@@ -3,26 +3,13 @@ import mongoose from "mongoose";
 const productSchema = new mongoose.Schema(
   {
     name: {
-      en: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      ar: {
-        type: String,
-        required: true,
-        trim: true,
-      },
+      type: String,
+      required: true,
+      trim: true,
     },
     description: {
-      en: {
-        type: String,
-        trim: true,
-      },
-      ar: {
-        type: String,
-        trim: true,
-      },
+      type: String,
+      trim: true,
     },
     sku: {
       type: String,
@@ -77,27 +64,14 @@ const productSchema = new mongoose.Schema(
         },
       },
     ],
-    images: [String],
-    minStockLevel: {
+    minStockQty: {
       type: Number,
       default: 0,
-      min: 0,
-    },
-    maxStockLevel: {
-      type: Number,
       min: 0,
     },
     currentStock: {
       type: Number,
       default: 0,
-      min: 0,
-    },
-    costPrice: {
-      type: Number,
-      min: 0,
-    },
-    sellingPrice: {
-      type: Number,
       min: 0,
     },
     isActive: {
@@ -125,10 +99,6 @@ const productSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    lastModifiedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
   },
   {
     timestamps: true,
@@ -145,7 +115,7 @@ productSchema.index({ createdAt: -1 });
 
 // Virtual for low stock alert
 productSchema.virtual("isLowStock").get(function () {
-  return this.currentStock <= this.minStockLevel;
+  return this.currentStock <= this.minStockQty;
 });
 
 export const ProductModel = mongoose.model("Product", productSchema);
