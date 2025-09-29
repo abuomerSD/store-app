@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 
 import { UserModel } from "../models/user.model";
 import { IUser } from "../types";
-import { ApiError } from "../utils/errors";
 
 const findAll = async (): Promise<IUser[]> => {
   const users = await UserModel.find();

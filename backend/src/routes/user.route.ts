@@ -1,5 +1,6 @@
 import express from "express";
 import userController from "../controllers/user.controller";
+import { authMiddleware, roleAuthMiddleware } from "../middlewares/auth";
 
 export const userRouter = express.Router();
 
@@ -55,12 +56,17 @@ export const userRouter = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-userRouter.get("/", userController.findAll);
-userRouter.post("/", userController.save);
 
-userRouter.route("/").get(userController.findAll).post(userController.save);
+userRouter
+  .route("/")
+  .get(authMiddleware, roleAuthMiddleware(["admin"]), userController.findAll)
+  .post(authMiddleware, roleAuthMiddleware(["admin"]), userController.save);
 userRouter
   .route("/:id")
-  .get(userController.findById)
-  .put(userController.updateById)
-  .delete(userController.deleteById);
+  .get(authMiddleware, roleAuthMiddleware(["admin"]), userController.findById)
+  .put(authMiddleware, roleAuthMiddleware(["admin"]), userController.updateById)
+  .delete(
+    authMiddleware,
+    roleAuthMiddleware(["admin"]),
+    userController.deleteById
+  );

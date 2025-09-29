@@ -6,5 +6,10 @@ export const notFoundMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  res.status(404).json(new FailResponse({ message: "route not found" }));
+  res.status(404).json(
+    new FailResponse({
+      message_en: "route not found",
+      message_ar: "المسار غير موجود",
+    })
+  );
 };
