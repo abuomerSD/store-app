@@ -1,0 +1,24 @@
+import express from "express";
+import productController from "../controllers/product.controller";
+import { authMiddleware, roleAuthMiddleware } from "../middlewares/auth";
+
+export const productRouter = express.Router();
+
+productRouter
+  .route("/")
+  .get(productController.findAll)
+  .post(authMiddleware, roleAuthMiddleware(["admin"]), productController.save);
+
+productRouter
+  .route("/:id")
+  .get(productController.findById)
+  .put(
+    authMiddleware,
+    roleAuthMiddleware(["admin", "user"]),
+    productController.updateById
+  )
+  .delete(
+    authMiddleware,
+    roleAuthMiddleware(["admin", "user"]),
+    productController.deleteById
+  );

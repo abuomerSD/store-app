@@ -7,6 +7,8 @@ import { errorHandler } from "./middlewares/errorHandler";
 import { swaggerSpec, swaggerUi } from "./swagger";
 import { authRouter } from "./routes/auth.route";
 import { notFoundMiddleware } from "./middlewares/notFound";
+import { categoryRouter } from "./routes/category.route";
+import { productRouter } from "./routes/product.route";
 
 const app = express();
 
@@ -29,6 +31,8 @@ if (NODE_ENV === "development") {
 // routes
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/categories", categoryRouter);
+app.use("/api/products", productRouter);
 
 // not found middleware
 

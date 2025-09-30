@@ -5,6 +5,7 @@ const categorySchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      unique: true,
       trim: true,
     },
     description: {
@@ -27,7 +28,7 @@ const categorySchema = new mongoose.Schema(
 );
 
 // Indexes
-categorySchema.index({ "name.en": "text", "name.ar": "text" });
+categorySchema.index({ name: "text" });
 categorySchema.index({ isActive: 1 });
 categorySchema.index({ createdAt: -1 });
 

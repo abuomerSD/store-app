@@ -5,6 +5,7 @@ const productSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      unique: true,
       trim: true,
     },
     description: {
@@ -106,7 +107,7 @@ const productSchema = new mongoose.Schema(
 );
 
 // Indexes
-productSchema.index({ "name.en": "text", "name.ar": "text", sku: "text" });
+productSchema.index({ name: "text", sku: "text" });
 productSchema.index({ category: 1 });
 productSchema.index({ sku: 1 });
 productSchema.index({ isActive: 1 });

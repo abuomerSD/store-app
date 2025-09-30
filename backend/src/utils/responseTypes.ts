@@ -11,7 +11,7 @@ export class SuccessResponse {
 
 export class FailResponse {
   status = "fail";
-  data: {};
+  data: {} | null;
   constructor(data: {}) {
     this.data = data;
   }
