@@ -9,6 +9,9 @@ import { authRouter } from "./routes/auth.route";
 import { notFoundMiddleware } from "./middlewares/notFound";
 import { categoryRouter } from "./routes/category.route";
 import { productRouter } from "./routes/product.route";
+import { operationRouter } from "./routes/operation.route";
+import { stockMovementRouter } from "./routes/stockMovement.route";
+import { unitDefinitionRouter } from "./routes/unitDefinition.route";
 
 const app = express();
 
@@ -33,6 +36,9 @@ app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/products", productRouter);
+app.use("/api/operations", operationRouter);
+app.use("/api/stock-movements", stockMovementRouter);
+app.use("/api/unit-definition", unitDefinitionRouter);
 
 // not found middleware
 
