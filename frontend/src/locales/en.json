@@ -1,0 +1,15 @@
+{
+  "loginPage": {
+    "title": "Login",
+    "username": "Username",
+    "password": "Password",
+    "errors": {
+      "wrongUsernameOrPassword": "Wrong Username Or Password",
+      "serverError": "Server Error",
+      "enterUserNameAndPassword": "Enter Username And Password"
+    }
+  },
+  "navbar": {
+    "home": "Home"
+  }
+}

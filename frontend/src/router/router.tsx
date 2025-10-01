@@ -2,6 +2,7 @@ import { createBrowserRouter, type RouteObject } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import HomePage from "../pages/HomePage";
+import { PrivateRoute } from "../components/PrivateRoute";
 
 const routes: RouteObject[] = [
   {
@@ -11,6 +12,14 @@ const routes: RouteObject[] = [
   {
     path: "/admin/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/private",
+    element: (
+      <PrivateRoute>
+        <HomePage />
+      </PrivateRoute>
+    ),
   },
   {
     path: "*",

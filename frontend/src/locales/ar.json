@@ -1,0 +1,15 @@
+{
+  "loginPage": {
+    "title": "تسجيل الدخول",
+    "username": "اسم المستخدم",
+    "password": "كلمة السر",
+    "errors": {
+      "wrongUsernameOrPassword": "خطأ في اسم المستخدم او كلمة المرور",
+      "serverError": "خطأ في الخادم",
+      "enterUserNameAndPassword": "ادخل اسم المستخدم و كلمة السر"
+    }
+  },
+  "navbar": {
+    "home": "الصفحة الرئيسية"
+  }
+}

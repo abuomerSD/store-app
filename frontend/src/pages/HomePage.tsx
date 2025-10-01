@@ -1,4 +1,5 @@
 import { Card, CardContent, Typography, Button } from "@mui/material";
+import Navbar from "../components/Navbar";
 
 export default function HomePage() {
   const sections = [
@@ -28,6 +29,9 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center">
       {/* Header */}
+      <div className="w-full">
+        <Navbar />
+      </div>
       <header className="mb-8 text-center">
         <Typography variant="h4" className="font-bold text-blue-600">
           🏪 Store Management System
