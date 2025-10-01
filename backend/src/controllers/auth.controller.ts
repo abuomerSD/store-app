@@ -42,14 +42,12 @@ const login = asyncHandler(async (req: Request, res: Response) => {
       );
     }
   } else {
-    res
-      .status(401)
-      .json(
-        new FailResponse({
-          message_en: "invalid username or wrong password",
-          message_ar: "خطأ في اسم المستخدم او كلمة السر",
-        })
-      );
+    res.status(401).json(
+      new FailResponse({
+        message_en: "invalid username or wrong password",
+        message_ar: "خطأ في اسم المستخدم او كلمة السر",
+      })
+    );
   }
 });
 

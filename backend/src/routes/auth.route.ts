@@ -1,6 +1,7 @@
 import express from "express";
 import authController from "../controllers/auth.controller";
+import { validateLogin } from "../middlewares/validations/authValidationMiddleware";
 
 export const authRouter = express.Router();
 
-authRouter.route("/login").post(authController.login);
+authRouter.route("/login").post(validateLogin, authController.login);
