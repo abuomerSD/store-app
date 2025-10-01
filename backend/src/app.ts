@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import morgan from "morgan";
-import { NODE_ENV, PORT } from "./config/env";
+import cors from "cors";
+
+import { CORS_ORIGIN, NODE_ENV, PORT } from "./config/env";
 import { connectDB } from "./config/database";
 import { userRouter } from "./routes/user.route";
 import { errorHandler } from "./middlewares/errorHandler";
@@ -30,6 +32,13 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 if (NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+
+// cors
+app.use(
+  cors({
+    origin: CORS_ORIGIN,
+  })
+);
 
 // routes
 app.use("/api/users", userRouter);
