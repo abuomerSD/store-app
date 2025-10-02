@@ -10,6 +10,14 @@
     }
   },
   "navbar": {
-    "home": "Home"
+    "home": "Home",
+    "logout": "Logout",
+    "categories": "Categories",
+    "products": "Products",
+    "dialog": {
+      "logout": "Logout",
+      "doYouWantToLogout": "Do You Want To Logout",
+      "cancel": "cancel"
+    }
   }
 }

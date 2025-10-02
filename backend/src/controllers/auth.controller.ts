@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { IUser } from "../types";
 import { UserModel } from "../models/user.model";
 import { JWT_SECRET } from "../config/env";
-import { TOKEN_EXPIRES_IN } from "../config/constants";
+import { TOKEN_EXPIRES_IN_SEC } from "../config/constants";
 import { FailResponse, SuccessResponse } from "../utils/responseTypes";
 
 const login = asyncHandler(async (req: Request, res: Response) => {
@@ -28,11 +28,22 @@ const login = asyncHandler(async (req: Request, res: Response) => {
         },
         JWT_SECRET,
         {
-          expiresIn: TOKEN_EXPIRES_IN,
+          expiresIn: TOKEN_EXPIRES_IN_SEC,
         }
       );
 
-      res.status(200).json(new SuccessResponse({ token }));
+      const userData = {
+        username,
+        role: foundUser.role,
+      };
+
+      res.cookie("auth_token", token, {
+        maxAge: TOKEN_EXPIRES_IN_SEC * 1000,
+        httpOnly: true,
+        sameSite: "lax",
+      });
+
+      res.status(200).json(new SuccessResponse({ user: userData }));
     } else {
       res.status(401).json(
         new FailResponse({

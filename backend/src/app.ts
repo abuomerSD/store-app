@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import morgan from "morgan";
 import cors from "cors";
-
+import cookieParser from "cookie-parser";
 import { CORS_ORIGIN, NODE_ENV, PORT } from "./config/env";
 import { connectDB } from "./config/database";
 import { userRouter } from "./routes/user.route";
@@ -24,6 +24,9 @@ connectDB();
 
 // json
 app.use(express.json());
+
+// cookie parser
+app.use(cookieParser());
 
 // Swagger docs route
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));

@@ -14,7 +14,9 @@ GET {{host}}{{categoryPath}}{{categoryId}}
 # save category 
 POST {{host}}{{categoryPath}}
 Content-Type: application/json
+
 {
-    "name": "category 1",
-    "description": "cat 1",
+    "name": "category 3",
+    "description": "cat 3",
+    "createdBy": "68da0fdd4b407391328928a5"
 }

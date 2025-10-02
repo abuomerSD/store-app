@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -7,19 +7,25 @@ import {
   Typography,
   Paper,
 } from "@mui/material";
-import { http } from "../services/http";
+import { http } from "../../services/http";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "../context/AuthContext";
 import { AxiosError } from "axios";
+import { useAuth } from "../../context/auth/useAuth";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { login } = useAuth();
+  const { login, user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,16 +38,10 @@ const LoginPage = () => {
         );
       }
       const res = await http.post("auth/login", { username, password });
+      console.log("res", res);
 
       if (res.data.status === "success") {
-        // Store user in context
-        login(res.data.user); // assuming API returns { user: { username, role } }
-
-        // Optionally store token in localStorage/sessionStorage
-        localStorage.setItem("token", res.data.token);
-
-        // Redirect to home or dashboard
-        navigate("/");
+        login(res.data.data.user);
       } else {
         toast.error(res.data.message || "Login failed", {
           position: "top-right",

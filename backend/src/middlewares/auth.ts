@@ -9,18 +9,22 @@ export const authMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  const authHeader = req.header("Authorization");
+  console.log("req.cookies", req.cookies);
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json(
-      new FailResponse({
-        message_en: "Access denied. No valid token format found.",
-        message_ar: "لا يمكنك الوصول : التوكن غير موجود",
-      })
-    );
-  }
+  // const authHeader = req.header("Authorization");
 
-  const token = authHeader.split("Bearer ")[1];
+  // if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  //   return res.status(401).json(
+  //     new FailResponse({
+  //       message_en: "Access denied. No valid token format found.",
+  //       message_ar: "لا يمكنك الوصول : التوكن غير موجود",
+  //     })
+  //   );
+  // }
+
+  // const token = authHeader.split("Bearer ")[1];
+
+  const token = req.cookies.auth_token;
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as IReqUser;
