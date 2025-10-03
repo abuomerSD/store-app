@@ -7,7 +7,8 @@
       "wrongUsernameOrPassword": "خطأ في اسم المستخدم او كلمة المرور",
       "serverError": "خطأ في الخادم",
       "enterUserNameAndPassword": "ادخل اسم المستخدم و كلمة السر"
-    }
+    },
+    "language": "اللغة"
   },
   "navbar": {
     "home": "الصفحة الرئيسية",
@@ -18,6 +19,9 @@
       "logout": "تسجيل الخروج",
       "doYouWantToLogout": "هل تريد تسجيل الخروج",
       "cancel": "الغاء"
-    }
+    },
+    "arabic": "عربي",
+    "english": "انجليزي",
+    "language": "اللغة"
   }
 }
