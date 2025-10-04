@@ -9,6 +9,9 @@ categoryRouter
   .get(categoryController.findAll)
   .post(authMiddleware, roleAuthMiddleware(["admin"]), categoryController.save);
 
+categoryRouter.route("/paginate").get(categoryController.paginate);
+categoryRouter.route("/search").get(categoryController.search);
+
 categoryRouter
   .route("/:id")
   .get(categoryController.findById)

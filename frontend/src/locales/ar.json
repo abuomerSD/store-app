@@ -23,5 +23,28 @@
     "arabic": "عربي",
     "english": "انجليزي",
     "language": "اللغة"
+  },
+  "categories": {
+    "search": "بحث",
+    "name": "الاسم",
+    "description": "الوصف",
+    "createdBy": "تم الانشاء بواسطة",
+    "createdAt": "تاريخ الانشاء",
+    "updatedAt": "تم التحديث في",
+    "title": "التصنيفات",
+    "addCategory": "اضافة تصنيف",
+    "cancel": "الغاء",
+    "save": "حفظ",
+    "categorySavedSuccessfully": "تم حفظ التصنيف بنجاح",
+    "actions": "عمليات",
+    "editCategory": "تعديل التصنيف",
+    "update": "تحديث",
+    "categoryUpdatedSuccessfully": "تم تحديث التصنيف بنجاح",
+    "enterSearchKeywords": "ادخل كلمات البحث",
+    "link": "الرابط"
+  },
+  "catgories": {
+    "enterCategoryName": "ادخل اسم التصنيف",
+    "enterCategoryDescription": "ادخل وصف التصنيف"
   }
 }

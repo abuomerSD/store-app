@@ -37,9 +37,13 @@ if (NODE_ENV === "development") {
 }
 
 // cors
+
+// app.use(cors());
+
 app.use(
   cors({
     origin: CORS_ORIGIN,
+    credentials: true,
   })
 );
 

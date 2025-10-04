@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { ICategory } from "../types";
 import { CategoryModel } from "../models/category.model";
+import { ObjectId } from "mongoose";
 
 const findAll = async (): Promise<ICategory[]> => {
   const categories = await CategoryModel.find();
@@ -33,12 +34,49 @@ const deleteById = async (id: string): Promise<ICategory | null> => {
   return deleted;
 };
 
+const paginate = async (page: number, limit: number) => {
+  const skip = (page - 1) * limit;
+  const categories = await CategoryModel.find()
+    .populate("createdBy", "username")
+    .limit(limit)
+    .skip(skip)
+    .sort({ createdAt: -1 });
+  const total_rows = (await CategoryModel.find()).length;
+  return {
+    total_rows,
+    categories,
+  };
+};
+
+const search = async (search: string, page: number, limit: number) => {
+  const skip = (page - 1) * limit;
+  const categories = await CategoryModel.find({
+    name: { $regex: search, $options: "i" },
+  })
+    .populate("createdBy", "username")
+    .limit(limit)
+    .skip(skip)
+    .sort({ createdAt: -1 });
+
+  const total_rows = (
+    await CategoryModel.find({
+      name: { $regex: search, $options: "i" },
+    })
+  ).length;
+  return {
+    total_rows,
+    categories,
+  };
+};
+
 const categoryService = {
   findAll,
   findById,
   save,
   updateById,
   deleteById,
+  paginate,
+  search,
 };
 
 export default categoryService;

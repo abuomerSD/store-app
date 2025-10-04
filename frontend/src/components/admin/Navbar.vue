@@ -27,9 +27,12 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">{{
+            <router-link to="/admin/categories" class="nav-link text-white">{{
               $t("navbar.categories")
-            }}</a>
+            }}</router-link>
+            <!-- <a class="nav-link text-white" href="#">{{
+              $t("navbar.categories")
+            }}</a> -->
           </li>
           <li class="nav-item">
             <a class="nav-link text-white" href="#">{{
@@ -37,9 +40,9 @@
             }}</a>
           </li>
         </ul>
-        <div class="nav-item dropdown">
+        <div class="nav-item dropdown me-3">
           <a
-            class="nav-link dropdown-toggle text-black"
+            class="nav-link dropdown-toggle text-white"
             href="#"
             role="button"
             data-bs-toggle="dropdown"
@@ -64,7 +67,7 @@
             </li>
           </ul>
         </div>
-        <p class="nav-item">{{ user.username }}</p>
+        <p class="nav-item text-white">{{ user.username }}</p>
       </div>
     </div>
   </nav>
@@ -77,7 +80,7 @@ export default {
   data() {
     return {
       user: {},
-      lang: "ar",
+      lang: "en",
     };
   },
   methods: {

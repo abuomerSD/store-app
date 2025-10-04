@@ -23,5 +23,28 @@
     "arabic": "Arabic",
     "english": "English",
     "language": "Language"
+  },
+  "categories": {
+    "search": "search",
+    "name": "Name",
+    "description": "Description",
+    "createdBy": "createdBy",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "title": "Categories",
+    "addCategory": "Add Category",
+    "cancel": "Cancel",
+    "save": "Save",
+    "categorySavedSuccessfully": "Category Saved Successfully",
+    "actions": "Actions",
+    "editCategory": "Edit Category",
+    "update": "Update",
+    "categoryUpdatedSuccessfully": "Category Updated Successfully",
+    "enterSearchKeywords": "Enter Search Keywords",
+    "link": "Link"
+  },
+  "catgories": {
+    "enterCategoryName": "Enter Category Name",
+    "enterCategoryDescription": "Enter Category Description"
   }
 }

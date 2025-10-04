@@ -53,7 +53,6 @@ export default {
         .then((res) => {
           console.log(res);
           if (res.status === "success") {
-            this.$toast.success("Operation successful!");
             const authStore = useAuthStore();
             authStore.login(res.data.user);
             this.$router.push("/admin/dashboard");

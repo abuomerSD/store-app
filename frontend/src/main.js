@@ -4,6 +4,7 @@ import App from "./App.vue";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-vue-next/dist/bootstrap-vue-next.css";
+import { BPagination } from "bootstrap-vue-next";
 import "./assets/fonts/fonts.css";
 import router from "./router";
 import i18n from "./i18n";
@@ -14,6 +15,8 @@ import "vue-toast-notification/dist/theme-sugar.css"; // theme
 import { createPinia } from "pinia";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "flag-icons/css/flag-icons.min.css";
+import PrimeVue from "primevue/config";
+import { AutoComplete } from "primevue";
 
 const app = createApp(App);
 
@@ -27,6 +30,9 @@ app.use(VueToast, {
   duration: 3000,
   dismissible: true,
 });
+app.use(PrimeVue);
+app.component("b-pagination", BPagination);
+app.component("AutoComplete", AutoComplete);
 app.config.globalProperties.$http = http;
 
 app.mount("#app");
