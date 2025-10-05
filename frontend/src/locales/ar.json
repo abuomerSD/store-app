@@ -23,7 +23,8 @@
     "arabic": "عربي",
     "english": "انجليزي",
     "language": "اللغة",
-    "units": "الوحدات"
+    "units": "الوحدات",
+    "users": "المستخدمين"
   },
   "categories": {
     "search": "بحث",
@@ -61,5 +62,12 @@
     "update": "تحديث",
     "convertionFactor": "عدد القطع",
     "fillAllFields": "املا جميع الحقول"
+  },
+  "users": {
+    "title": "المستخدمين",
+    "username": "اسم المستخدم",
+    "password": "كلمة السر",
+    "userSavedSuccessfully": "تم حفظ المستخدم بنجاح",
+    "role": "الدور"
   }
 }

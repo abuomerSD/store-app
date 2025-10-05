@@ -1,7 +1,7 @@
 <template>
   <AdminLayout>
     <div class="container">
-      <h3>{{ $t("units.title") }}</h3>
+      <h3>{{ $t("users.title") }}</h3>
       <div class="d-flex justify-content-between">
         <div>
           <!-- <input
@@ -25,28 +25,24 @@
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">{{ $t("categories.name") }}</th>
-              <th scope="col">{{ $t("categories.qtyPerUnit") }}</th>
-              <th scope="col">{{ $t("categories.createdBy") }}</th>
+              <th scope="col">{{ $t("users.username") }}</th>
               <th scope="col">{{ $t("categories.createdAt") }}</th>
               <th scope="col">{{ $t("categories.updatedAt") }}</th>
               <th scope="col">{{ $t("categories.actions") }}</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(unit, index) in units" :key="index">
+            <tr v-for="(user, index) in users" :key="index">
               <th scope="row">{{ index + 1 }}</th>
-              <td>{{ unit.name }}</td>
-              <td>{{ unit.qtyPerUnit }}</td>
-              <td>{{ unit.createdBy.username }}</td>
-              <td>{{ new Date(unit.createdAt).toLocaleDateString() }}</td>
-              <td>{{ new Date(unit.updatedAt).toLocaleDateString() }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ new Date(user.createdAt).toLocaleDateString() }}</td>
+              <td>{{ new Date(user.updatedAt).toLocaleDateString() }}</td>
               <td>
                 <i
                   class="fa-solid fa-lg fa-pen-to-square text-primary icon"
                   data-bs-toggle="modal"
                   data-bs-target="#editUnitModal"
-                  @click="selectUnit(unit)"
+                  @click="selectUser(user)"
                 ></i>
               </td>
             </tr>
@@ -63,7 +59,7 @@
       </div>
 
       <!-- Modals -->
-      <!-- Add Unit Modal -->
+      <!-- Add User Modal -->
 
       <div
         class="modal fade"
@@ -76,7 +72,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="addUnitModalLabel">
-                {{ $t("units.addUnit") }}
+                {{ $t("users.addUser") }}
               </h1>
               <button
                 type="button"
@@ -86,14 +82,21 @@
               ></button>
             </div>
             <div class="modal-body">
-              <label for="">{{ $t("units.name") }}</label>
-              <input type="text" class="form-control" v-model="unit.name" />
-              <label for="">{{ $t("units.convertionFactor") }}</label>
+              <label for="">{{ $t("users.username") }}</label>
+              <input type="text" class="form-control" v-model="user.username" />
+              <label for="">{{ $t("users.password") }}</label>
               <input
-                type="text"
+                type="password"
                 class="form-control"
-                v-model="unit.qtyPerUnit"
+                v-model="user.password"
               />
+              <div class="row">
+                <label for="#role" class="mt-2">{{ $t("users.role") }}</label>
+              </div>
+              <select name="" id="role" v-model="user.role" class="form-select">
+                <option value="admin">admin</option>
+                <option value="user" selected>user</option>
+              </select>
             </div>
             <div class="modal-footer">
               <button
@@ -115,62 +118,6 @@
           </div>
         </div>
       </div>
-
-      <!-- edit unit modal -->
-      <div
-        class="modal fade"
-        id="editUnitModal"
-        tabindex="-1"
-        aria-labelledby="editUnitModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="editUnitModalLabel">
-                {{ $t("units.updateUnit") }}
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <label for="">{{ $t("units.name") }}</label>
-              <input
-                type="text"
-                class="form-control"
-                v-model="selectedUnit.name"
-              />
-              <label for="">{{ $t("units.convertionFactor") }}</label>
-              <input
-                type="text"
-                class="form-control"
-                v-model="selectedUnit.qtyPerUnit"
-              />
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                {{ $t("units.cancel") }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-bs-dismiss="modal"
-                @click="update"
-              >
-                {{ $t("units.update") }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </AdminLayout>
 </template>
@@ -185,9 +132,9 @@ export default {
   },
   data() {
     return {
-      unit: {},
-      units: [],
-      selectedUnit: {},
+      user: {},
+      users: [],
+      selectedUser: {},
       page: 1,
       limit: PAGE_LIMIT,
     };
@@ -195,10 +142,10 @@ export default {
   methods: {
     async paginate() {
       await this.$http
-        .get(`units/paginate?pageStr=${this.page}&limitStr=${this.limit}`)
+        .get(`users/paginate?pageStr=${this.page}&limitStr=${this.limit}`)
         .then((res) => {
           console.log(res);
-          this.units = res.data.units;
+          this.users = res.data.users;
           this.total_rows = res.data.total_rows;
         })
         .catch((err) => {
@@ -208,41 +155,23 @@ export default {
     },
     async save() {
       // validation
-      if (!this.unit.name || !this.unit.qtyPerUnit) {
+      if (!this.user.username || !this.user.password) {
         this.$toast.warning(this.$t("units.fillAllFields"));
         return;
       }
 
       await this.$http
-        .post("units", this.unit)
+        .post("users", this.user)
         .then(async (res) => {
           console.log(res);
-          this.$toast.success(this.$t("units.unitSavedSuccessfully"));
+          this.$toast.success(this.$t("users.userSavedSuccessfully"));
           await this.paginate();
-          this.unit = {};
+          this.user = {};
         })
         .catch((err) => {
           console.error(err);
           this.$toast.error(err.message);
         });
-    },
-    async update() {
-      // validation
-      if (!this.selectedUnit.name || !this.selectedUnit.qtyPerUnit) {
-        this.$toast.warning(this.$t("units.fillAllFields"));
-        return;
-      }
-      const id = this.selectedUnit._id;
-      console.log("this.selectedUnit", this.selectedUnit);
-      await this.$http.put("units", id, this.selectedUnit).then(async (res) => {
-        console.log(res);
-        this.$toast.success(this.$t("units.unitUpdatedSuccessfully"));
-        await this.paginate();
-        this.selectedUnit = {};
-      });
-    },
-    selectUnit(unit) {
-      this.selectedUnit = unit;
     },
   },
   async mounted() {

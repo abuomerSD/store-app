@@ -8,6 +8,8 @@ export interface IUser {
   password: string;
   role: "admin" | "user";
   isActive?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface IReqUser extends JwtPayload {

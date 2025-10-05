@@ -5,13 +5,30 @@ import { IUser } from "../types";
 
 const findAll = async (): Promise<IUser[]> => {
   const users = await UserModel.find();
-  return users;
+  const arr: IUser[] = users.map((user) => {
+    return {
+      username: user.username,
+      role: user.role,
+      password: "",
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+  });
+  console.log("arr", arr);
+  return arr;
 };
 
 const findById = async (id: string): Promise<IUser | null> => {
   const user = await UserModel.findById(id);
   if (user) {
-    return user;
+    const obj: IUser = {
+      username: user.username,
+      password: "",
+      role: user.role,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+    return obj;
   }
   return null;
 };
@@ -33,12 +50,26 @@ const deleteById = async (id: string) => {
   return deleted;
 };
 
+const paginate = async (page: number, limit: number) => {
+  const skip = (page - 1) * limit;
+  const users = await UserModel.find()
+    .limit(limit)
+    .skip(skip)
+    .sort({ createdAt: -1 });
+  const total_rows = (await UserModel.find()).length;
+  return {
+    total_rows,
+    users,
+  };
+};
+
 const userService = {
   findAll,
   findById,
   save,
   updateById,
   deleteById,
+  paginate,
 };
 
 export default userService;

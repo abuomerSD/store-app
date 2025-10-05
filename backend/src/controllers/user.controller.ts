@@ -34,12 +34,21 @@ const deleteById = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json(new SuccessResponse({ user: deleted }));
 });
 
+const paginate = asyncHandler(async (req: Request, res: Response) => {
+  const { pageStr, limitStr } = req.query;
+  const page = Number(pageStr);
+  const limit = Number(limitStr);
+  const { users, total_rows } = await userService.paginate(page, limit);
+  res.status(200).json(new SuccessResponse({ users, total_rows }));
+});
+
 const userController = {
   findAll,
   findById,
   save,
   updateById,
   deleteById,
+  paginate,
 };
 
 export default userController;

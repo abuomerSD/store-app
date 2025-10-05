@@ -7,6 +7,7 @@ import NotFoundPage from "../pages/NotFoundPage.vue";
 import CategoriesPage from "../pages/admin/CategoriesPage.vue";
 import CategoriesDetailsPage from "../pages/admin/CategoriesDetailsPage.vue";
 import UnitsPage from "../pages/admin/UnitsPage.vue";
+import UsersPage from "../pages/admin/UsersPage.vue";
 
 const routes = [
   {
@@ -38,6 +39,11 @@ const routes = [
     path: "/admin/units",
     name: "AdminUnits",
     component: UnitsPage,
+  },
+  {
+    path: "/admin/users",
+    name: "AdminUsers",
+    component: UsersPage,
   },
   {
     path: "/:pathMatch(.*)*",

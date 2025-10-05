@@ -23,7 +23,8 @@
     "arabic": "Arabic",
     "english": "English",
     "language": "Language",
-    "units": "Units"
+    "units": "Units",
+    "users": "Users"
   },
   "categories": {
     "search": "search",
@@ -61,5 +62,13 @@
     "update": "Update",
     "convertionFactor": "Number of pieces",
     "fillAllFields": "Fill All Fields"
+  },
+  "users": {
+    "title": "Users",
+    "username": "Username",
+    "password": "Password",
+    "addUser": "Add User",
+    "userSavedSuccessfully": "User Saved Successfully",
+    "role": "Role"
   }
 }

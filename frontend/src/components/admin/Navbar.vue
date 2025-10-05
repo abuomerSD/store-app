@@ -44,6 +44,11 @@
               $t("navbar.units")
             }}</router-link>
           </li>
+          <li class="nav-item">
+            <router-link to="/admin/users" class="nav-link text-white">{{
+              $t("navbar.users")
+            }}</router-link>
+          </li>
         </ul>
         <div class="nav-item dropdown me-3">
           <a

@@ -61,6 +61,9 @@ userRouter
   .route("/")
   .get(authMiddleware, roleAuthMiddleware(["admin"]), userController.findAll)
   .post(authMiddleware, roleAuthMiddleware(["admin"]), userController.save);
+
+userRouter.route("/paginate").get(userController.paginate);
+
 userRouter
   .route("/:id")
   .get(authMiddleware, roleAuthMiddleware(["admin"]), userController.findById)
