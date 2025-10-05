@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import productService from "../services/product.service";
 import { IProduct } from "../types";
-import { SuccessResponse } from "../utils/responseTypes";
+import { FailResponse, SuccessResponse } from "../utils/responseTypes";
+import { Types } from "mongoose";
 
 const findAll = asyncHandler(async (req: Request, res: Response) => {
   const products = await productService.findAll();
@@ -17,8 +18,14 @@ const findById = asyncHandler(async (req: Request, res: Response) => {
 
 const save = asyncHandler(async (req: Request, res: Response) => {
   const product: IProduct = req.body;
-  const saved = await productService.save(product);
-  res.status(201).json(new SuccessResponse({ product: saved }));
+  const user = req.user;
+  if (user) {
+    product.createdBy = new Types.ObjectId(user.id);
+    const saved = await productService.save(product);
+    res.status(201).json(new SuccessResponse({ product: saved }));
+  } else {
+    res.status(401).json(new FailResponse({ message: "no user logged in" }));
+  }
 });
 
 const updateById = asyncHandler(async (req: Request, res: Response) => {
@@ -34,12 +41,26 @@ const deleteById = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json(new SuccessResponse({ product: deleted }));
 });
 
+const paginate = asyncHandler(async (req: Request, res: Response) => {
+  const { pageStr, limitStr, categoryIdStr } = req.query;
+  const page = Number(pageStr);
+  const limit = Number(limitStr);
+  const categoryId = categoryIdStr?.toString() || "";
+  const { products, total_rows } = await productService.paginate(
+    page,
+    limit,
+    categoryId
+  );
+  res.status(200).json(new SuccessResponse({ products, total_rows }));
+});
+
 const productController = {
   findAll,
   findById,
   save,
   updateById,
   deleteById,
+  paginate,
 };
 
 export default productController;

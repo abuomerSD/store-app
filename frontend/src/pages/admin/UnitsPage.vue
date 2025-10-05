@@ -1,6 +1,6 @@
 <template>
   <AdminLayout>
-    <div class="container">
+    <div class="container mt-3">
       <h3>{{ $t("units.title") }}</h3>
       <div class="d-flex justify-content-between">
         <div>
@@ -90,7 +90,8 @@
               <input type="text" class="form-control" v-model="unit.name" />
               <label for="">{{ $t("units.convertionFactor") }}</label>
               <input
-                type="text"
+                type="number"
+                min="1"
                 class="form-control"
                 v-model="unit.qtyPerUnit"
               />

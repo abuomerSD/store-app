@@ -12,33 +12,33 @@ export const connectDB = async () => {
     const conn = await mongoose.connect(MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      autoIndex: false,
+      autoIndex: true,
     });
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);
     await addDefaults();
 
     // Create indexes
-    mongoose.connection.once("open", async () => {
-      const models = [
-        mongoose.model("User"),
-        mongoose.model("Category"),
-        mongoose.model("Product"),
-        mongoose.model("StockMovement"),
-        mongoose.model("Operation"),
-        mongoose.model("UnitDefinition"),
-      ];
+    // mongoose.connection.once("open", async () => {
+    //   const models = [
+    //     mongoose.model("User"),
+    //     mongoose.model("Category"),
+    //     mongoose.model("Product"),
+    //     mongoose.model("StockMovement"),
+    //     mongoose.model("Operation"),
+    //     mongoose.model("UnitDefinition"),
+    //   ];
 
-      for (const model of models) {
-        try {
-          console.log(`Rebuilding indexes for ${model.modelName}...`);
-          await model.syncIndexes(); // <- the correct method
-          console.log(`Indexes for ${model.modelName} are in sync.`);
-        } catch (err) {
-          console.error(`Error syncing indexes for ${model.modelName}:`, err);
-        }
-      }
-    });
+    //   for (const model of models) {
+    //     try {
+    //       console.log(`Rebuilding indexes for ${model.modelName}...`);
+    //       await model.syncIndexes(); // <- the correct method
+    //       console.log(`Indexes for ${model.modelName} are in sync.`);
+    //     } catch (err) {
+    //       console.error(`Error syncing indexes for ${model.modelName}:`, err);
+    //     }
+    //   }
+    // });
   } catch (error) {
     console.error("Database connection error:", error);
     process.exit(1);

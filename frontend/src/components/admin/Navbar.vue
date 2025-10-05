@@ -19,12 +19,9 @@
           :class="lang === 'ar' ? 'ms-auto' : 'me-auto'"
         >
           <li class="nav-item">
-            <a
-              class="nav-link active text-white"
-              aria-current="page"
-              href="#"
-              >{{ $t("navbar.home") }}</a
-            >
+            <router-link to="/admin/dashboard" class="nav-link text-white">{{
+              $t("navbar.home")
+            }}</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/admin/categories" class="nav-link text-white">{{
@@ -35,9 +32,9 @@
             }}</a> -->
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">{{
+            <router-link to="/admin/products" class="nav-link text-white">{{
               $t("navbar.products")
-            }}</a>
+            }}</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/admin/units" class="nav-link text-white">{{
@@ -90,7 +87,7 @@ export default {
   data() {
     return {
       user: {},
-      lang: "en",
+      lang: this.$i18n.locale,
     };
   },
   methods: {
@@ -111,6 +108,7 @@ export default {
   watch: {
     lang(newLang) {
       this.$i18n.locale = newLang;
+      localStorage.setItem("locale", newLang);
       if (newLang === "ar") {
         document.documentElement.dir = "rtl";
         document.body.style.fontFamily = "'Cairo', sans-serif";

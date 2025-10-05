@@ -7,9 +7,11 @@ const messages = {
   ar,
 };
 
+const savedLocale = localStorage.getItem("locale") || "en";
+
 const i18n = createI18n({
   legacy: true,
-  locale: "en",
+  locale: savedLocale,
   fallbackLocale: "en",
   messages,
 });

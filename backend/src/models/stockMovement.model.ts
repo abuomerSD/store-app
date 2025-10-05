@@ -60,7 +60,7 @@ const stockMovementSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    autoIndex: false,
+    // autoIndex: false,
   }
 );
 

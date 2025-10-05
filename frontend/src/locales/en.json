@@ -44,7 +44,13 @@
     "categoryUpdatedSuccessfully": "Category Updated Successfully",
     "enterSearchKeywords": "Enter Search Keywords",
     "link": "Link",
-    "qtyPerUnit": "Quantity Per Unit"
+    "qtyPerUnit": "Quantity Per Unit",
+    "code": "Code",
+    "AddProduct": "Add Product",
+    "Code": "Code",
+    "MinimumStockQuantity": "Minimum Required Stock Quantity",
+    "ProductSavedSuccessfully": "Product Saved Successfully",
+    "category": "Category"
   },
   "catgories": {
     "enterCategoryName": "Enter Category Name",

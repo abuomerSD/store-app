@@ -1,23 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import LoginPage from "../pages/admin/LoginPage.vue";
-import HomePage from "../pages/admin/HomePage.vue";
 import DashboardPage from "../pages/admin/DashboardPage.vue";
 import NotFoundPage from "../pages/NotFoundPage.vue";
 import CategoriesPage from "../pages/admin/CategoriesPage.vue";
 import CategoriesDetailsPage from "../pages/admin/CategoriesDetailsPage.vue";
 import UnitsPage from "../pages/admin/UnitsPage.vue";
 import UsersPage from "../pages/admin/UsersPage.vue";
+import ProductsPage from "../pages/admin/ProductsPage.vue";
 
 const routes = [
   {
     path: "/",
     redirect: "/admin/Home",
-  },
-  {
-    path: "/admin/home",
-    name: "AdminHome",
-    component: HomePage,
   },
   { path: "/admin/login", name: "AdminLogin", component: LoginPage },
   {
@@ -44,6 +39,11 @@ const routes = [
     path: "/admin/users",
     name: "AdminUsers",
     component: UsersPage,
+  },
+  {
+    path: "/admin/products",
+    name: "AdminProducts",
+    component: ProductsPage,
   },
   {
     path: "/:pathMatch(.*)*",

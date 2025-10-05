@@ -1,6 +1,6 @@
 <template>
   <AdminLayout>
-    <div class="container">
+    <div class="container mt-3">
       <h3>{{ $t("users.title") }}</h3>
       <div class="d-flex justify-content-between">
         <div>

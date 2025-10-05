@@ -9,6 +9,8 @@ productRouter
   .get(productController.findAll)
   .post(authMiddleware, roleAuthMiddleware(["admin"]), productController.save);
 
+productRouter.route("/paginate").get(productController.paginate);
+
 productRouter
   .route("/:id")
   .get(productController.findById)

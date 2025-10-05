@@ -44,7 +44,12 @@
     "categoryUpdatedSuccessfully": "تم تحديث التصنيف بنجاح",
     "enterSearchKeywords": "ادخل كلمات البحث",
     "link": "الرابط",
-    "qtyPerUnit": "الكمية في الوحدة"
+    "qtyPerUnit": "الكمية في الوحدة",
+    "code": "الكود",
+    "AddProduct": "اضافة منتج",
+    "MinimumStockQuantity": "حد الطلب",
+    "ProductSavedSuccessfully": "تم حفظ المنتج بنجاح",
+    "category": "التصنيف"
   },
   "catgories": {
     "enterCategoryName": "ادخل اسم التصنيف",

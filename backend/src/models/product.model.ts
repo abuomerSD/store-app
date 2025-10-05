@@ -12,7 +12,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    sku: {
+    code: {
       type: String,
       required: true,
       unique: true,
@@ -24,47 +24,6 @@ const productSchema = new mongoose.Schema(
       ref: "Category",
       required: true,
     },
-    baseUnit: {
-      type: String,
-      required: true,
-      enum: ["piece", "kg", "gram", "liter", "ml", "meter", "cm"],
-      default: "piece",
-    },
-    units: [
-      {
-        unitType: {
-          type: String,
-          required: true,
-        },
-        unitName: {
-          en: {
-            type: String,
-            required: true,
-          },
-          ar: {
-            type: String,
-            required: true,
-          },
-        },
-        conversionFactor: {
-          type: Number,
-          required: true,
-          min: 0.001,
-        },
-        isDefault: {
-          type: Boolean,
-          default: false,
-        },
-        addedBy: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-        addedAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
     minStockQty: {
       type: Number,
       default: 0,
@@ -75,26 +34,6 @@ const productSchema = new mongoose.Schema(
       default: 0,
       min: 0,
     },
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
-    auditTrail: [
-      {
-        operationId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Operation",
-        },
-        timestamp: {
-          type: Date,
-          default: Date.now,
-        },
-        performedBy: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-      },
-    ],
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -103,7 +42,7 @@ const productSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    autoIndex: false,
+    // autoIndex: true,
   }
 );
 

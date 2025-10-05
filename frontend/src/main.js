@@ -35,4 +35,10 @@ app.component("b-pagination", BPagination);
 app.component("AutoComplete", AutoComplete);
 app.config.globalProperties.$http = http;
 
+// languages select on start or refresh
+const savedLocale = localStorage.getItem("locale") || "en";
+document.documentElement.dir = savedLocale === "ar" ? "rtl" : "ltr";
+document.body.style.fontFamily =
+  savedLocale === "ar" ? "'Cairo', sans-serif" : "'Roboto', sans-serif";
+
 app.mount("#app");

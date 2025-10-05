@@ -37,24 +37,14 @@ interface IUnit {
   addedAt: Date;
 }
 
-interface IAuditTrail {
-  operationId?: Types.ObjectId | null;
-  timestamp: Date;
-  performedBy?: Types.ObjectId | null;
-}
-
 export interface IProduct {
   _id: Types.ObjectId;
   name: string;
   description?: string | null;
-  sku: string;
+  code: string;
   category: Types.ObjectId;
-  baseUnit: string;
-  units: IUnit[];
   minStockQty: number;
   currentStock: number;
-  isActive: boolean;
-  auditTrail: IAuditTrail[];
   createdBy: Types.ObjectId;
 }
 

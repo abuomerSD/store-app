@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { ProductModel } from "../models/product.model";
 import { IProduct } from "../types";
 
@@ -32,12 +33,28 @@ const deleteById = async (id: string): Promise<IProduct | null> => {
   return deleted;
 };
 
+const paginate = async (page: number, limit: number, categoryId: string) => {
+  const skip = (page - 1) * limit;
+  const products = await ProductModel.find({ category: categoryId })
+    .populate("createdBy", "username")
+    .populate("category", "name")
+    .limit(limit)
+    .skip(skip)
+    .sort({ createdAt: -1 });
+  const total_rows = (await ProductModel.find()).length;
+  return {
+    total_rows,
+    products,
+  };
+};
+
 const productService = {
   findAll,
   findById,
   save,
   updateById,
   deleteById,
+  paginate,
 };
 
 export default productService;

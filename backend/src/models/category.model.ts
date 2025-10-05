@@ -24,7 +24,7 @@ const categorySchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    autoIndex: false,
+    // autoIndex: false,
   }
 );
 
