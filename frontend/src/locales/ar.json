@@ -22,7 +22,8 @@
     },
     "arabic": "عربي",
     "english": "انجليزي",
-    "language": "اللغة"
+    "language": "اللغة",
+    "units": "الوحدات"
   },
   "categories": {
     "search": "بحث",
@@ -41,10 +42,24 @@
     "update": "تحديث",
     "categoryUpdatedSuccessfully": "تم تحديث التصنيف بنجاح",
     "enterSearchKeywords": "ادخل كلمات البحث",
-    "link": "الرابط"
+    "link": "الرابط",
+    "qtyPerUnit": "الكمية في الوحدة"
   },
   "catgories": {
     "enterCategoryName": "ادخل اسم التصنيف",
     "enterCategoryDescription": "ادخل وصف التصنيف"
+  },
+  "units": {
+    "title": "الوحدات",
+    "unitSavedSuccessfully": "تم حفظ الوحدة بنجاح",
+    "addUnit": "اضافة وحدة",
+    "cancel": "الغاء",
+    "save": "حفظ",
+    "name": "اسم الوحدة",
+    "unitUpdatedSuccessfully": "تم تحديث الوحدة بنجاح",
+    "updateUnit": "تحديث وحدة",
+    "update": "تحديث",
+    "convertionFactor": "عدد القطع",
+    "fillAllFields": "املا جميع الحقول"
   }
 }

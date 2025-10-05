@@ -9,6 +9,8 @@ unitDefinitionRouter
   .get(authMiddleware, roleAuthMiddleware(["admin"]), unitController.findAll)
   .post(authMiddleware, roleAuthMiddleware(["admin"]), unitController.save);
 
+unitDefinitionRouter.route("/paginate").get(unitController.paginate);
+
 unitDefinitionRouter
   .route("/:id")
   .get(authMiddleware, roleAuthMiddleware(["admin"]), unitController.findById)

@@ -54,7 +54,7 @@ app.use("/api/categories", categoryRouter);
 app.use("/api/products", productRouter);
 app.use("/api/operations", operationRouter);
 app.use("/api/stock-movements", stockMovementRouter);
-app.use("/api/unit-definition", unitDefinitionRouter);
+app.use("/api/units", unitDefinitionRouter);
 
 // not found middleware
 

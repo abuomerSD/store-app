@@ -3,3 +3,8 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.searchbb {
+  width: 200px;
+  background-color: red;
+}

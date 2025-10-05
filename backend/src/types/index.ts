@@ -3,11 +3,11 @@ import { Types } from "mongoose";
 
 // user
 export interface IUser {
-  _id: Types.ObjectId;
+  _id?: Types.ObjectId;
   username: string;
   password: string;
   role: "admin" | "user";
-  isActive: boolean;
+  isActive?: boolean;
 }
 
 export interface IReqUser extends JwtPayload {
@@ -57,23 +57,15 @@ export interface IProduct {
 }
 
 // unit
-export interface IUnitConversion {
-  unitName?: {
-    en: string;
-    ar: string;
-  } | null;
-  conversionToBase: number;
-}
 
 export interface IUnitDefinition {
-  _id: Types.ObjectId;
-  unitType: "piece" | "weight" | "volume" | "length";
-  baseUnit: string;
-  conversions: IUnitConversion[];
-  isActive: boolean;
+  _id?: Types.ObjectId;
+  name: string;
+  qtyPerUnit: number;
   createdBy: Types.ObjectId;
-  createdAt: Date;
-  updatedAt: Date;
+  isBaseUnit?: boolean | null;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 // stock movement

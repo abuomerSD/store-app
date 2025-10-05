@@ -22,7 +22,8 @@
     },
     "arabic": "Arabic",
     "english": "English",
-    "language": "Language"
+    "language": "Language",
+    "units": "Units"
   },
   "categories": {
     "search": "search",
@@ -41,10 +42,24 @@
     "update": "Update",
     "categoryUpdatedSuccessfully": "Category Updated Successfully",
     "enterSearchKeywords": "Enter Search Keywords",
-    "link": "Link"
+    "link": "Link",
+    "qtyPerUnit": "Quantity Per Unit"
   },
   "catgories": {
     "enterCategoryName": "Enter Category Name",
     "enterCategoryDescription": "Enter Category Description"
+  },
+  "units": {
+    "title": "Units",
+    "unitSavedSuccessfully": "Unit Saved Successfully",
+    "addUnit": "Add Unit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "name": "Name",
+    "unitUpdatedSuccessfully": "Unit Updated Successfully",
+    "updateUnit": "Update Unit",
+    "update": "Update",
+    "convertionFactor": "Number of pieces",
+    "fillAllFields": "Fill All Fields"
   }
 }

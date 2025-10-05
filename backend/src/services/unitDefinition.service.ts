@@ -32,12 +32,27 @@ const deleteById = async (id: string): Promise<IUnitDefinition | null> => {
   return deleted;
 };
 
+const paginate = async (page: number, limit: number) => {
+  const skip = (page - 1) * limit;
+  const units = await UnitDefinitionModel.find()
+    .populate("createdBy", "username")
+    .limit(limit)
+    .skip(skip)
+    .sort({ createdAt: -1 });
+  const total_rows = (await UnitDefinitionModel.find()).length;
+  return {
+    total_rows,
+    units,
+  };
+};
+
 const unitDefinitionService = {
   findAll,
   findById,
   save,
   updateById,
   deleteById,
+  paginate,
 };
 
 export default unitDefinitionService;

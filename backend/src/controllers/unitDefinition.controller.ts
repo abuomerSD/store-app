@@ -3,6 +3,7 @@ import asyncHandler from "express-async-handler";
 import unitDefinitionService from "../services/unitDefinition.service";
 import { SuccessResponse } from "../utils/responseTypes";
 import { IUnitDefinition } from "../types";
+import { Types } from "mongoose";
 
 const findAll = asyncHandler(async (req: Request, res: Response) => {
   const units = await unitDefinitionService.findAll();
@@ -17,8 +18,13 @@ const findById = asyncHandler(async (req: Request, res: Response) => {
 
 const save = asyncHandler(async (req: Request, res: Response) => {
   const unit: IUnitDefinition = req.body;
-  const saved = await unitDefinitionService.save(unit);
-  res.status(201).json(new SuccessResponse({ unit: saved }));
+  const user = req.user;
+  if (user) {
+    unit.createdBy = new Types.ObjectId(user.id);
+    const saved = await unitDefinitionService.save(unit);
+    res.status(201).json(new SuccessResponse({ unit: saved }));
+  } else {
+  }
 });
 
 const updateById = asyncHandler(async (req: Request, res: Response) => {
@@ -34,12 +40,24 @@ const deleteById = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json(new SuccessResponse({ unit: deleted }));
 });
 
+const paginate = asyncHandler(async (req: Request, res: Response) => {
+  const { pageStr, limitStr } = req.query;
+  const page = Number(pageStr);
+  const limit = Number(limitStr);
+  const { units, total_rows } = await unitDefinitionService.paginate(
+    page,
+    limit
+  );
+  res.status(200).json(new SuccessResponse({ units, total_rows }));
+});
+
 const unitController = {
   findAll,
   findById,
   save,
   updateById,
   deleteById,
+  paginate,
 };
 
 export default unitController;

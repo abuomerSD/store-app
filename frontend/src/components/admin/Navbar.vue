@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
       <a class="navbar-brand text-white" href="#">Store App</a>
       <button
@@ -39,6 +39,11 @@
               $t("navbar.products")
             }}</a>
           </li>
+          <li class="nav-item">
+            <router-link to="/admin/units" class="nav-link text-white">{{
+              $t("navbar.units")
+            }}</router-link>
+          </li>
         </ul>
         <div class="nav-item dropdown me-3">
           <a
@@ -48,7 +53,7 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <i class="fa-solid fa-language"></i>
+            <i class="fa-solid fa-globe"></i>
             {{ lang }}
             <!-- {{ $t("navbar.language") }} -->
           </a>
@@ -67,7 +72,7 @@
             </li>
           </ul>
         </div>
-        <p class="nav-item text-white">{{ user.username }}</p>
+        <h6 class="nav-item text-white">{{ user.username }}</h6>
       </div>
     </div>
   </nav>
