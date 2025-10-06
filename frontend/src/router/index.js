@@ -8,11 +8,17 @@ import CategoriesDetailsPage from "../pages/admin/CategoriesDetailsPage.vue";
 import UnitsPage from "../pages/admin/UnitsPage.vue";
 import UsersPage from "../pages/admin/UsersPage.vue";
 import ProductsPage from "../pages/admin/ProductsPage.vue";
+import CustomerProductsPage from "../pages/customer/ProductsPage.vue";
 
 const routes = [
   {
     path: "/",
-    redirect: "/admin/Home",
+    redirect: "/customer/products",
+  },
+  {
+    path: "/customer/products",
+    name: "CustomerProductsPage",
+    component: CustomerProductsPage,
   },
   { path: "/admin/login", name: "AdminLogin", component: LoginPage },
   {
