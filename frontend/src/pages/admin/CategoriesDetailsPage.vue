@@ -39,7 +39,11 @@
               <th scope="col">{{ $t("categories.code") }}</th>
               <th scope="col">{{ $t("categories.name") }}</th>
               <th scope="col">{{ $t("categories.description") }}</th>
-              <th scope="col">{{ $t("categories.category") }}</th>
+              <th scope="col">{{ $t("categories.minStockQty") }}</th>
+              <th scope="col">{{ $t("categories.CurrentStock") }}</th>
+              <th scope="col">{{ $t("categories.units") }}</th>
+              <th scope="col">{{ $t("categories.createdBy") }}</th>
+              <th scope="col">{{ $t("categories.createdAt") }}</th>
               <th scope="col">{{ $t("categories.updatedAt") }}</th>
               <th scope="col">{{ $t("categories.actions") }}</th>
             </tr>
@@ -50,15 +54,44 @@
               <td>{{ product.code }}</td>
               <td>{{ product.name }}</td>
               <td>{{ product.description }}</td>
+              <td>{{ product.minStockQty }}</td>
+              <td>{{ product.currentStock }}</td>
+              <td>
+                <i
+                  class="fa-solid fa-lg fa-circle-info icon text-success"
+                  data-bs-target="#addProductUnitModal"
+                  data-bs-toggle="modal"
+                  @click="selectProduct(product)"
+                ></i>
+              </td>
+              <td>{{ product.createdBy.username }}</td>
               <td>{{ new Date(product.createdAt).toLocaleDateString() }}</td>
               <td>{{ new Date(product.updatedAt).toLocaleDateString() }}</td>
               <td>
-                <i
-                  class="fa-solid fa-lg fa-pen-to-square text-primary icon"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editUnitModal"
-                  @click="selectProduct(product)"
-                ></i>
+                <div class="d-flex justify-content-center align-items-center">
+                  <i
+                    class="fa-solid fa-lg fa-pen-to-square text-primary icon ms-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editProductModal"
+                    @click="selectProduct(product)"
+                  ></i>
+                  <button
+                    class="btn btn-success ms-2"
+                    @click="selectProduct(product)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#AddIncomingQtyModal"
+                  >
+                    {{ $t("categories.incoming") }}
+                  </button>
+                  <button
+                    class="btn btn-danger ms-2"
+                    @click="selectProduct(product)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#AddOutGoingQtyModal"
+                  >
+                    {{ $t("categories.outgoing") }}
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -135,6 +168,256 @@
           </div>
         </div>
       </div>
+      <!-- Edit Product Modal -->
+
+      <div
+        class="modal fade"
+        id="editProductModal"
+        tabindex="-1"
+        aria-labelledby="editProductModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="editProductModalLabel">
+                {{ $t("categories.EditProduct") }}
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <label for="">{{ $t("categories.code") }}</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="selectedProduct.code"
+              />
+              <label for="">{{ $t("categories.name") }}</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="selectedProduct.name"
+              />
+              <label for="">{{ $t("categories.description") }}</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="selectedProduct.description"
+              />
+              <label for="">{{ $t("categories.MinimumStockQuantity") }}</label>
+              <input
+                type="number"
+                min="0"
+                class="form-control"
+                v-model="selectedProduct.minStockQty"
+              />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                {{ $t("units.cancel") }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                @click="update"
+              >
+                {{ $t("units.save") }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Product Unit Modal -->
+
+      <div
+        class="modal fade"
+        id="addProductUnitModal"
+        tabindex="-1"
+        aria-labelledby="addProductUnitModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="addProductUnitModalLabel">
+                {{ $t("categories.AddProductUnit") }}
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <label for="">{{ $t("categories.UnitName") }}</label>
+              <input type="text" class="form-control" v-model="unit.name" />
+              <label for="">{{ $t("categories.PiecesPerUnit") }}</label>
+              <input
+                type="number"
+                min="1"
+                class="form-control"
+                v-model="unit.piecesInUnit"
+              />
+              <button
+                class="btn btn-success mt-2 mb-2"
+                @click="addUnit(selectedProduct._id)"
+                data-bs-dismiss="modal"
+              >
+                {{ $t("categories.save") }}
+              </button>
+              <table class="table">
+                <thead>
+                  <th>{{ $t("categories.UnitName") }}</th>
+                  <th>{{ $t("categories.PiecesPerUnit") }}</th>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(unit, index) in selectedProduct.units"
+                    :key="index"
+                  >
+                    <td>{{ unit.name }}</td>
+                    <td>{{ unit.piecesInUnit }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                {{ $t("units.cancel") }}
+              </button>
+              <!-- <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                @click="save"
+              >
+                {{ $t("units.save") }}
+              </button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Add Incoming Qty Modal -->
+
+      <div
+        class="modal fade"
+        id="AddIncomingQtyModal"
+        tabindex="-1"
+        aria-labelledby="AddIncomingQtyModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="AddIncomingQtyModalLabel">
+                {{ $t("categories.AddIncomingQty") }}
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <h6>{{ selectedProduct.name }}</h6>
+              <label for="">{{ $t("categories.incomingQty") }}</label>
+              <input type="number" min="1" class="form-control w-50" />
+              <label for="">{{ $t("categories.UnitName") }}</label>
+              <div class="row mt-2 ms-1 me-1">
+                <select
+                  v-modal="selectedProduct.selectedUnit"
+                  class="form-select w-50"
+                >
+                  <option
+                    v-for="(unit, index) in selectedProduct.units"
+                    :key="index"
+                    :value="unit.name"
+                  >
+                    {{ unit.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                {{ $t("units.cancel") }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                @click="addIncomingQty"
+              >
+                {{ $t("units.save") }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Add Outgoing Qty Modal -->
+
+      <div
+        class="modal fade"
+        id="AddOutGoingQtyModal"
+        tabindex="-1"
+        aria-labelledby="AddOutGoingQtyModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="AddOutGoingQtyModalLabel">
+                {{ $t("categories.AddOutgoingQty") }}
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">ds</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                {{ $t("units.cancel") }}
+              </button>
+              <!-- <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                @click="save"
+              >
+                {{ $t("units.save") }}
+              </button> -->
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </AdminLayout>
 </template>
@@ -156,6 +439,8 @@ export default {
       page: 1,
       limit: PAGE_LIMIT,
       total_rows: 0,
+      unit: {},
+      search: "",
     };
   },
   methods: {
@@ -179,7 +464,7 @@ export default {
       if (
         !this.product.code ||
         !this.product.name ||
-        !this.product.description ||
+        // !this.product.description ||
         !this.product.minStockQty
       ) {
         this.$toast.warning(this.$t("units.fillAllFields"));
@@ -187,6 +472,13 @@ export default {
       }
 
       this.product.category = this.categoryId;
+      this.product.units = [
+        {
+          name: "piece",
+          isBaseUnit: true,
+          piecesInUnit: 1,
+        },
+      ];
 
       await this.$http
         .post("products", this.product)
@@ -214,7 +506,74 @@ export default {
     },
     selectProduct(product) {
       this.selectedProduct = product;
+      console.log("selected product", this.selectProduct);
     },
+    async addUnit(productId) {
+      // validations
+      if (!this.unit.name || !this.unit.piecesInUnit) {
+        this.$toast.warning(this.$t("categories.FillAllFields"));
+        return;
+      }
+      await this.$http
+        .post(`products/add-unit/${productId}`, this.unit)
+        .then(async (res) => {
+          console.log(res);
+          this.$toast.success(this.$t("categories.UnitAddedSuccessfully"));
+          this.unit = {};
+          await this.paginate();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$toast.error(err.message);
+        });
+    },
+    async update() {
+      // validations
+      if (
+        !this.selectedProduct.code ||
+        !this.selectedProduct.name ||
+        !this.selectedProduct.minStockQty
+      ) {
+        this.$toast.warning(this.$t("categories.FillAllFields"));
+        return;
+      }
+
+      await this.$http
+        .put(`products`, this.selectedProduct._id, this.selectedProduct)
+        .then((res) => {
+          console.log(res);
+          this.$toast.success(this.$t("categories.ProductUpdatedSuccessfully"));
+        })
+        .catch((err) => {
+          console.error(err);
+          this.$toast.error(err.message);
+        });
+    },
+    async handleSearch() {
+      // validate
+      if (this.search.trim() === "") {
+        // this.$toast.warning(this.$t("categories.enterSearchKeywords"));
+        this.page = 1;
+        await this.paginate();
+        return;
+      }
+
+      await this.$http
+        .get(
+          `products/search?search=${this.search}&pageStr=${this.page}&limitStr=${this.limit}&categoryId=${this.categoryId}`
+        )
+        .then((res) => {
+          console.log(res);
+          this.products = res.data.products;
+          this.total_rows = res.data.total_rows;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$toast.error(err.message);
+        });
+    },
+    async addIncomingQty() {},
+    async addOutgoingQty() {},
   },
   async mounted() {
     this.categoryId = this.$route.params.id;
@@ -223,7 +582,11 @@ export default {
   },
   watch: {
     async page(val) {
-      await this.paginate();
+      if (!this.search) {
+        await this.paginate();
+      } else {
+        await this.handleSearch();
+      }
     },
   },
 };

@@ -36,11 +36,11 @@
               $t("navbar.products")
             }}</router-link>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link to="/admin/units" class="nav-link text-white">{{
               $t("navbar.units")
             }}</router-link>
-          </li>
+          </li> -->
           <li class="nav-item">
             <router-link to="/admin/users" class="nav-link text-white">{{
               $t("navbar.users")

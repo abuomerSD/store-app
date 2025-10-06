@@ -28,24 +28,23 @@ export interface ICategory {
 }
 
 // product
-interface IUnit {
-  unitType: string;
-  unitName?: { en: string; ar: string } | null;
-  conversionFactor: number;
-  isDefault: boolean;
-  addedBy?: Types.ObjectId | null;
-  addedAt: Date;
+export interface IUnit {
+  name: string;
+  isBaseUnit: boolean;
+  piecesInUnit: number;
 }
 
-export interface IProduct {
+export interface IProduct extends Document {
   _id: Types.ObjectId;
   name: string;
   description?: string | null;
   code: string;
   category: Types.ObjectId;
   minStockQty: number;
+  units: IUnit[];
   currentStock: number;
   createdBy: Types.ObjectId;
+  isLowStock?: boolean;
 }
 
 // unit

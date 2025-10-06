@@ -1,6 +1,16 @@
-import mongoose from "mongoose";
+import mongoose, { Types, Schema, Document } from "mongoose";
+import { IProduct, IUnit } from "../types";
 
-const productSchema = new mongoose.Schema(
+const unitSchema = new Schema<IUnit>(
+  {
+    name: { type: String, required: true, trim: true },
+    isBaseUnit: { type: Boolean, default: false },
+    piecesInUnit: { type: Number, required: true, min: 1 },
+  },
+  { _id: false } // prevents creating separate _id for each subdocument
+);
+
+const productSchema = new Schema<IProduct>(
   {
     name: {
       type: String,
@@ -20,9 +30,13 @@ const productSchema = new mongoose.Schema(
       uppercase: true,
     },
     category: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Category",
       required: true,
+    },
+    units: {
+      type: [unitSchema],
+      default: [],
     },
     minStockQty: {
       type: Number,
@@ -35,28 +49,27 @@ const productSchema = new mongoose.Schema(
       min: 0,
     },
     createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
   },
   {
     timestamps: true,
-    // autoIndex: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
-// Indexes
-productSchema.index({ name: "text", sku: "text" });
+// ✅ Corrected indexes (removed invalid ones)
+productSchema.index({ name: "text", code: "text" });
 productSchema.index({ category: 1 });
-productSchema.index({ sku: 1 });
-productSchema.index({ isActive: 1 });
 productSchema.index({ currentStock: 1 });
 productSchema.index({ createdAt: -1 });
 
-// Virtual for low stock alert
-productSchema.virtual("isLowStock").get(function () {
+// ✅ Virtual for low stock
+productSchema.virtual("isLowStock").get(function (this: IProduct) {
   return this.currentStock <= this.minStockQty;
 });
 
-export const ProductModel = mongoose.model("Product", productSchema);
+export const ProductModel = mongoose.model<IProduct>("Product", productSchema);

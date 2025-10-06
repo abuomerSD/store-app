@@ -50,7 +50,22 @@
     "Code": "Code",
     "MinimumStockQuantity": "Minimum Required Stock Quantity",
     "ProductSavedSuccessfully": "Product Saved Successfully",
-    "category": "Category"
+    "category": "Category",
+    "minStockQty": "Minimum Stock Quantity",
+    "units": "Units",
+    "AddProductUnit": "Add Product Unit",
+    "UnitName": "Unit Name",
+    "PiecesPerUnit": "Pieces Per Unit",
+    "UnitAddedSuccessfully": "Unit Added Successfully",
+    "FillAllFields": "Fill All Fields",
+    "EditProduct": "Edit Product",
+    "ProductUpdatedSuccessfully": "Product Updated Successfully",
+    "CurrentStock": "Current Stock",
+    "incoming": "Incoming",
+    "outgoing": "Outgoing",
+    "AddIncomingQty": "Add Incoming Quantity",
+    "AddOutgoingQty": "Add Outgoing Quantity",
+    "incomingQty": "Incoming Quantity"
   },
   "catgories": {
     "enterCategoryName": "Enter Category Name",

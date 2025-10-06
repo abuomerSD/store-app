@@ -10,6 +10,8 @@ productRouter
   .post(authMiddleware, roleAuthMiddleware(["admin"]), productController.save);
 
 productRouter.route("/paginate").get(productController.paginate);
+productRouter.route("/search").get(productController.search);
+productRouter.route("/add-unit/:id").post(productController.addUnit);
 
 productRouter
   .route("/:id")

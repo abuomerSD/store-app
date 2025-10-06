@@ -48,6 +48,46 @@ const paginate = async (page: number, limit: number, categoryId: string) => {
   };
 };
 
+const addUnit = async (
+  productId: string,
+  name: string,
+  isBaseUnit: boolean,
+  piecesInUnit: number
+) => {
+  const product = await ProductModel.updateOne(
+    { _id: productId },
+    { $push: { units: { name, isBaseUnit, piecesInUnit } } }
+  );
+  return product;
+};
+
+const search = async (
+  search: string,
+  page: number,
+  limit: number,
+  categoryId: string
+) => {
+  const skip = (page - 1) * limit;
+  const products = await ProductModel.find({
+    name: { $regex: search, $options: "i" },
+    category: categoryId,
+  })
+    .populate("createdBy", "username")
+    .limit(limit)
+    .skip(skip)
+    .sort({ createdAt: -1 });
+
+  const total_rows = (
+    await ProductModel.find({
+      name: { $regex: search, $options: "i" },
+    })
+  ).length;
+  return {
+    total_rows,
+    products,
+  };
+};
+
 const productService = {
   findAll,
   findById,
@@ -55,6 +95,8 @@ const productService = {
   updateById,
   deleteById,
   paginate,
+  addUnit,
+  search,
 };
 
 export default productService;

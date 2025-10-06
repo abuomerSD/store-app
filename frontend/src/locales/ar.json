@@ -49,7 +49,22 @@
     "AddProduct": "اضافة منتج",
     "MinimumStockQuantity": "حد الطلب",
     "ProductSavedSuccessfully": "تم حفظ المنتج بنجاح",
-    "category": "التصنيف"
+    "category": "التصنيف",
+    "minStockQty": "حد الطلب",
+    "units": "الوحدات",
+    "AddProductUnit": "اضافة وحدة",
+    "UnitName": "اسم الوحدة",
+    "PiecesPerUnit": "عدد القطع في الوحدة",
+    "UnitAddedSuccessfully": "تم اضافة الوحدة بنجاح",
+    "FillAllFields": "إملا جميع الحقول",
+    "EditProduct": "تعديل منتج",
+    "ProductUpdatedSuccessfully": "تم تحديث المنتج بنجاح",
+    "CurrentStock": "المخزون الحالي",
+    "incoming": "وارد",
+    "outgoing": "منصرف",
+    "AddIncomingQty": "إضافة كمية واردة",
+    "AddOutgoingQty": "اضافة كمية منصرفة",
+    "incomingQty": "الكمية الواردة"
   },
   "catgories": {
     "enterCategoryName": "ادخل اسم التصنيف",

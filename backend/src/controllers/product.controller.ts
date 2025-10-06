@@ -54,6 +54,41 @@ const paginate = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json(new SuccessResponse({ products, total_rows }));
 });
 
+const addUnit = asyncHandler(async (req: Request, res: Response) => {
+  const { name, isBaseUnit, piecesInUnit } = req.body;
+  const { id } = req.params;
+  const saved = await productService.addUnit(
+    id,
+    name,
+    isBaseUnit,
+    piecesInUnit
+  );
+  res.status(201).json(new SuccessResponse({ product: saved }));
+});
+
+const search = asyncHandler(async (req: Request, res: Response) => {
+  const { search, pageStr, limitStr, categoryId } = req.query;
+  const page = Number(pageStr);
+  const limit = Number(limitStr);
+
+  if (search && page && limit) {
+    const s = search.toString();
+    const { products, total_rows } = await productService.search(
+      s,
+      page,
+      limit,
+      categoryId?.toString() || ""
+    );
+    res.status(200).json(new SuccessResponse({ products, total_rows }));
+  } else {
+    res.status(400).json(
+      new FailResponse({
+        message: "Please Provide search, pageStr, limitStr",
+      })
+    );
+  }
+});
+
 const productController = {
   findAll,
   findById,
@@ -61,6 +96,8 @@ const productController = {
   updateById,
   deleteById,
   paginate,
+  addUnit,
+  search,
 };
 
 export default productController;

@@ -30,11 +30,11 @@ const routes = [
     name: "AdminCategoriesDetails",
     component: CategoriesDetailsPage,
   },
-  {
-    path: "/admin/units",
-    name: "AdminUnits",
-    component: UnitsPage,
-  },
+  // {
+  //   path: "/admin/units",
+  //   name: "AdminUnits",
+  //   component: UnitsPage,
+  // },
   {
     path: "/admin/users",
     name: "AdminUsers",
