@@ -41,6 +41,7 @@ const deleteById = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json(new SuccessResponse({ product: deleted }));
 });
 
+// paginate products in one category
 const paginate = asyncHandler(async (req: Request, res: Response) => {
   const { pageStr, limitStr, categoryIdStr } = req.query;
   const page = Number(pageStr);
@@ -50,6 +51,17 @@ const paginate = asyncHandler(async (req: Request, res: Response) => {
     page,
     limit,
     categoryId
+  );
+  res.status(200).json(new SuccessResponse({ products, total_rows }));
+});
+
+const paginateAll = asyncHandler(async (req: Request, res: Response) => {
+  const { pageStr, limitStr } = req.query;
+  const page = Number(pageStr);
+  const limit = Number(limitStr);
+  const { products, total_rows } = await productService.paginateAll(
+    page,
+    limit
   );
   res.status(200).json(new SuccessResponse({ products, total_rows }));
 });
@@ -66,6 +78,7 @@ const addUnit = asyncHandler(async (req: Request, res: Response) => {
   res.status(201).json(new SuccessResponse({ product: saved }));
 });
 
+// search for product in category
 const search = asyncHandler(async (req: Request, res: Response) => {
   const { search, pageStr, limitStr, categoryId } = req.query;
   const page = Number(pageStr);
@@ -89,6 +102,41 @@ const search = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
+// search for product in all categories
+
+const searchAll = asyncHandler(async (req: Request, res: Response) => {
+  const { search, pageStr, limitStr } = req.query;
+  const page = Number(pageStr);
+  const limit = Number(limitStr);
+
+  if (search && page && limit) {
+    const s = search.toString();
+    const { products, total_rows } = await productService.searchAll(
+      s,
+      page,
+      limit
+    );
+    res.status(200).json(new SuccessResponse({ products, total_rows }));
+  } else {
+    res.status(400).json(
+      new FailResponse({
+        message: "Please Provide search, pageStr, limitStr",
+      })
+    );
+  }
+});
+
+const calculateCurrentStock = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { productId, unitName } = req.query;
+    const currentStock = await productService.calculateCurrentStock(
+      productId?.toString() || "",
+      unitName?.toString() || ""
+    );
+    res.status(200).json(new SuccessResponse({ currentStock }));
+  }
+);
+
 const productController = {
   findAll,
   findById,
@@ -96,8 +144,11 @@ const productController = {
   updateById,
   deleteById,
   paginate,
+  paginateAll,
   addUnit,
   search,
+  searchAll,
+  calculateCurrentStock,
 };
 
 export default productController;

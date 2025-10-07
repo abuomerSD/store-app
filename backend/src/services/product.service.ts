@@ -48,6 +48,21 @@ const paginate = async (page: number, limit: number, categoryId: string) => {
   };
 };
 
+const paginateAll = async (page: number, limit: number) => {
+  const skip = (page - 1) * limit;
+  const products = await ProductModel.find()
+    .populate("createdBy", "username")
+    .populate("category", "name")
+    .limit(limit)
+    .skip(skip)
+    .sort({ createdAt: -1 });
+  const total_rows = (await ProductModel.find()).length;
+  return {
+    total_rows,
+    products,
+  };
+};
+
 const addUnit = async (
   productId: string,
   name: string,
@@ -88,6 +103,47 @@ const search = async (
   };
 };
 
+const searchAll = async (search: string, page: number, limit: number) => {
+  const skip = (page - 1) * limit;
+  const products = await ProductModel.find({
+    name: { $regex: search, $options: "i" },
+  })
+    .populate("createdBy", "username")
+    .limit(limit)
+    .skip(skip)
+    .sort({ createdAt: -1 });
+
+  const total_rows = (
+    await ProductModel.find({
+      name: { $regex: search, $options: "i" },
+    })
+  ).length;
+  return {
+    total_rows,
+    products,
+  };
+};
+
+const calculateCurrentStock = async (productId: string, unitName: string) => {
+  const product = await ProductModel.findOne({ _id: productId });
+  let newCurrentQty = 0;
+  if (product) {
+    const selectedUnit = product.units.find((unit) => unit.name === unitName);
+    console.log("selectedUnit", selectedUnit);
+    if (selectedUnit) {
+      newCurrentQty = Math.floor(
+        product.currentStock / selectedUnit.piecesInUnit
+      );
+      console.log("newCurrentQty", newCurrentQty);
+      return newCurrentQty;
+    } else {
+      throw new Error("No units found to this product");
+    }
+  } else {
+    throw new Error("No Product Found");
+  }
+};
+
 const productService = {
   findAll,
   findById,
@@ -95,8 +151,11 @@ const productService = {
   updateById,
   deleteById,
   paginate,
+  paginateAll,
   addUnit,
   search,
+  searchAll,
+  calculateCurrentStock,
 };
 
 export default productService;

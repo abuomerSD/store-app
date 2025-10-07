@@ -89,5 +89,13 @@
     "password": "كلمة السر",
     "userSavedSuccessfully": "تم حفظ المستخدم بنجاح",
     "role": "الدور"
+  },
+  "products": {
+    "title": "المنتجات",
+    "categoryName": "اسم التصنيف",
+    "ChooseUnit": "اختر الوحدة",
+    "code": "الكود",
+    "name": "اسم المنتج",
+    "Quantity": "الكمية"
   }
 }

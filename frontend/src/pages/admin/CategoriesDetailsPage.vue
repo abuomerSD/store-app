@@ -279,8 +279,10 @@
               </button>
               <table class="table">
                 <thead>
-                  <th>{{ $t("categories.UnitName") }}</th>
-                  <th>{{ $t("categories.PiecesPerUnit") }}</th>
+                  <tr>
+                    <th>{{ $t("categories.UnitName") }}</th>
+                    <th>{{ $t("categories.PiecesPerUnit") }}</th>
+                  </tr>
                 </thead>
                 <tbody>
                   <tr

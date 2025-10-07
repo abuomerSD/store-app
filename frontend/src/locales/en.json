@@ -91,5 +91,13 @@
     "addUser": "Add User",
     "userSavedSuccessfully": "User Saved Successfully",
     "role": "Role"
+  },
+  "products": {
+    "title": "Products",
+    "categoryName": "Category Name",
+    "ChooseUnit": "Choose Unit",
+    "code": "Code",
+    "name": "Name",
+    "Quantity": "Quantity"
   }
 }
