@@ -3,23 +3,23 @@ import { defineStore } from "pinia";
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     user: JSON.parse(localStorage.getItem("user")) || null,
+    // isSessionChecked: false,
   }),
   getters: {
     isAuthenticated: (state) => !!state.user,
-    getUser: (state) => state.user,
   },
   actions: {
-    async login(user) {
-      try {
-        this.user = user;
-        localStorage.setItem("user", JSON.stringify(this.user));
-      } catch (err) {
-        console.log(err);
-      }
+    login(user, auth_token) {
+      this.user = user;
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("auth_token", auth_token);
+      // this.isSessionChecked = true;
     },
     logout() {
       this.user = null;
       localStorage.removeItem("user");
+      localStorage.removeItem("auth_token");
+      // this.isSessionChecked = true;
     },
   },
 });

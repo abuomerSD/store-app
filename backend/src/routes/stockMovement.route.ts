@@ -18,6 +18,10 @@ stockMovementRouter
   );
 
 stockMovementRouter
+  .route("/paginate-by-product-id")
+  .get(stockMovementController.paginateByProductId);
+
+stockMovementRouter
   .route("/:id")
   .get(
     authMiddleware,

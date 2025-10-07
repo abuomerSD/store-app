@@ -91,6 +91,14 @@
                   >
                     {{ $t("categories.outgoing") }}
                   </button>
+                  <button
+                    class="btn btn-info ms-2"
+                    @click="showProductMovement(product)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#ProductMovementReportModal"
+                  >
+                    {{ $t("categories.report") }}
+                  </button>
                 </div>
               </td>
             </tr>
@@ -340,11 +348,16 @@
             <div class="modal-body">
               <h6>{{ selectedProduct.name }}</h6>
               <label for="">{{ $t("categories.incomingQty") }}</label>
-              <input type="number" min="1" class="form-control w-50" />
+              <input
+                type="number"
+                min="1"
+                class="form-control w-50"
+                v-model="selectedProduct.qty"
+              />
               <label for="">{{ $t("categories.UnitName") }}</label>
               <div class="row mt-2 ms-1 me-1">
                 <select
-                  v-modal="selectedProduct.selectedUnit"
+                  v-model="selectedProduct.selectedUnit"
                   class="form-select w-50"
                 >
                   <option
@@ -356,6 +369,13 @@
                   </option>
                 </select>
               </div>
+              <label for="">{{ $t("categories.notes") }}</label>
+              <input
+                type="text"
+                min="1"
+                class="form-control w-50"
+                v-model="selectedProduct.note"
+              />
             </div>
             <div class="modal-footer">
               <button
@@ -399,7 +419,38 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">ds</div>
+            <div class="modal-body">
+              <h6>{{ selectedProduct.name }}</h6>
+              <label for="">{{ $t("categories.outgoingQty") }}</label>
+              <input
+                type="number"
+                min="1"
+                class="form-control w-50"
+                v-model="selectedProduct.qty"
+              />
+              <label for="">{{ $t("categories.UnitName") }}</label>
+              <div class="row mt-2 ms-1 me-1">
+                <select
+                  v-model="selectedProduct.selectedUnit"
+                  class="form-select w-50"
+                >
+                  <option
+                    v-for="(unit, index) in selectedProduct.units"
+                    :key="index"
+                    :value="unit.name"
+                  >
+                    {{ unit.name }}
+                  </option>
+                </select>
+              </div>
+              <label for="">{{ $t("categories.notes") }}</label>
+              <input
+                type="text"
+                min="1"
+                class="form-control w-50"
+                v-model="selectedProduct.note"
+              />
+            </div>
             <div class="modal-footer">
               <button
                 type="button"
@@ -408,14 +459,84 @@
               >
                 {{ $t("units.cancel") }}
               </button>
-              <!-- <button
+              <button
                 type="button"
                 class="btn btn-primary"
                 data-bs-dismiss="modal"
-                @click="save"
+                @click="addOutgoingQty"
               >
                 {{ $t("units.save") }}
-              </button> -->
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Movement Report Modal -->
+
+      <div
+        class="modal fade"
+        id="ProductMovementReportModal"
+        tabindex="-1"
+        aria-labelledby="ProductMovementReportModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="ProductMovementReportModalLabel">
+                {{ $t("categories.productMovementReport") }}
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="d-flex justify-content-between">
+                <h5>{{ selectedProduct.name }}</h5>
+                <div class="d-flex">
+                  <p class="ms-2">{{ $t("categories.CurrentStock") }}:</p>
+                  <strong class="ms-2">{{
+                    this.selectedProduct.currentStock
+                  }}</strong>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>{{ $t("categories.createdAt") }}</th>
+                      <th>{{ $t("categories.MovementType") }}</th>
+                      <th>{{ $t("categories.Quantity") }}</th>
+                      <th>{{ $t("categories.note") }}</th>
+                      <th>{{ $t("categories.createdBy") }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(movement, index) in movements" :key="index">
+                      <td>{{ index }}</td>
+                      <td>
+                        {{ new Date(movement.createdAt).toLocaleDateString() }}
+                      </td>
+                      <td>{{ movement.quantity }}</td>
+                      <td>{{ movement.note }}</td>
+                      <td>{{ movement.createdBy.username }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="d-flex justify-content-center">
+                <b-pagination
+                  v-model="movements_page"
+                  :total-rows="movements_total_rows"
+                  :per-page="movements_limit"
+                  aria-controls="my-table"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -443,6 +564,10 @@ export default {
       total_rows: 0,
       unit: {},
       search: "",
+      movements: [],
+      movements_total_rows: 0,
+      movements_page: 1,
+      movements_limit: 10,
     };
   },
   methods: {
@@ -574,8 +699,88 @@ export default {
           this.$toast.error(err.message);
         });
     },
-    async addIncomingQty() {},
-    async addOutgoingQty() {},
+    async addIncomingQty() {
+      // validation
+      console.log(
+        this.selectedProduct.qty,
+        this.selectedProduct.selectedUnit,
+        this.selectedProduct.note
+      );
+      if (
+        !this.selectedProduct.qty ||
+        !this.selectedProduct.selectedUnit ||
+        !this.selectedProduct.note
+      ) {
+        this.$toast.warning(this.$t("categories.FillAllFields"));
+        return;
+      }
+
+      await this.$http
+        .post("products/incoming-qty", {
+          productId: this.selectedProduct._id,
+          qty: this.selectedProduct.qty,
+          note: this.selectedProduct.note,
+          selectedUnit: this.selectedProduct.selectedUnit,
+        })
+        .then(async (res) => {
+          console.log(res);
+          this.$toast.success(this.$t("categories.QuantityAddedSuccessfully"));
+          await this.paginate();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$toast.error(err.message);
+        });
+    },
+    async addOutgoingQty() {
+      // validation
+      console.log(
+        this.selectedProduct.qty,
+        this.selectedProduct.selectedUnit,
+        this.selectedProduct.note
+      );
+      if (
+        !this.selectedProduct.qty ||
+        !this.selectedProduct.selectedUnit ||
+        !this.selectedProduct.note
+      ) {
+        this.$toast.warning(this.$t("categories.FillAllFields"));
+        return;
+      }
+
+      await this.$http
+        .post("products/outgoing-qty", {
+          productId: this.selectedProduct._id,
+          qty: this.selectedProduct.qty,
+          note: this.selectedProduct.note,
+          selectedUnit: this.selectedProduct.selectedUnit,
+        })
+        .then(async (res) => {
+          console.log(res);
+          this.$toast.success(
+            this.$t("categories.QuantityDecreasedSuccessfully")
+          );
+          await this.paginate();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$toast.error(err.response.data.error.message);
+        });
+    },
+    async showProductMovement(product) {
+      this.selectedProduct = product;
+      await this.$http
+        .get("stock-movements/paginate-by-product-id")
+        .then((res) => {
+          console.log(res);
+          this.movements = res.movements;
+          this.movements_total_rows = res.total_rows;
+        })
+        .catch((err) => {
+          console.error(err);
+          this.$toast.error(err.message);
+        });
+    },
   },
   async mounted() {
     this.categoryId = this.$route.params.id;

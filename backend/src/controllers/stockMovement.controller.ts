@@ -3,6 +3,7 @@ import asyncHandler from "express-async-handler";
 import stockMovementService from "../services/stockMovement.service";
 import { SuccessResponse } from "../utils/responseTypes";
 import { IStockMovement } from "../types";
+import { Types } from "mongoose";
 
 const findAll = asyncHandler(async (req: Request, res: Response) => {
   const movements = await stockMovementService.findAll();
@@ -34,12 +35,26 @@ const deleteById = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json(new SuccessResponse({ movement: deleted }));
 });
 
+const paginateByProductId = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { pageStr, limitStr, id } = req.query;
+    const page = Number(pageStr);
+    const limit = Number(limitStr);
+    const productId = new Types.ObjectId(id?.toString());
+    const { movements, total_rows } =
+      await stockMovementService.paginateByProductId(page, limit, productId);
+
+    res.status(200).json(new SuccessResponse({ movements, total_rows }));
+  }
+);
+
 const stockMovementController = {
   findAll,
   findById,
   save,
   updateById,
   deleteById,
+  paginateByProductId,
 };
 
 export default stockMovementController;

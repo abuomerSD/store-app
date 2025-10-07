@@ -61,13 +61,13 @@ const productSchema = new Schema<IProduct>(
   }
 );
 
-// ✅ Corrected indexes (removed invalid ones)
+//  Corrected indexes (removed invalid ones)
 productSchema.index({ name: "text", code: "text" });
 productSchema.index({ category: 1 });
 productSchema.index({ currentStock: 1 });
 productSchema.index({ createdAt: -1 });
 
-// ✅ Virtual for low stock
+//  Virtual for low stock
 productSchema.virtual("isLowStock").get(function (this: IProduct) {
   return this.currentStock <= this.minStockQty;
 });

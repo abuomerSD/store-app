@@ -5,3 +5,5 @@ import { validateLogin } from "../middlewares/validations/authValidationMiddlewa
 export const authRouter = express.Router();
 
 authRouter.route("/login").post(validateLogin, authController.login);
+authRouter.route("/logout").post(authController.logout);
+authRouter.route("/verify-token").get(validateLogin, authController.verify);

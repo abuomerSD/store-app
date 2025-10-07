@@ -17,31 +17,9 @@ const stockMovementSchema = new mongoose.Schema(
       required: true,
       min: 0.001,
     },
-    unitType: {
-      type: String,
-      required: true,
-    },
-    inputQuantity: {
-      type: Number,
-      required: true,
-      min: 0.001,
-    },
-    inputUnit: {
-      type: String,
-      required: true,
-    },
-    reference: {
+    note: {
       type: String,
       trim: true,
-    },
-    notes: {
-      type: String,
-      trim: true,
-    },
-    date: {
-      type: Date,
-      required: true,
-      default: Date.now,
     },
     operationId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -52,11 +30,6 @@ const stockMovementSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    verifiedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-    verifiedAt: Date,
   },
   {
     timestamps: true,

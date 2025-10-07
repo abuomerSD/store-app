@@ -13,7 +13,7 @@ export interface IUser {
 }
 
 export interface IReqUser extends JwtPayload {
-  id: string;
+  id: string | Types.ObjectId;
   username: string;
   role: "admin" | "user";
 }
@@ -62,32 +62,18 @@ export interface IUnitDefinition {
 // stock movement
 
 export interface IStockMovement {
-  _id: Types.ObjectId;
+  _id?: Types.ObjectId;
   product: Types.ObjectId;
   movementType: "IN" | "OUT" | "ADJUSTMENT";
   quantity: number;
-  unitType: string;
-  inputQuantity: number;
-  inputUnit: string;
-  reference?: string | null;
-  notes?: string | null;
-  date: Date;
+  note?: string | null;
   operationId?: Types.ObjectId | null;
   createdBy: Types.ObjectId;
-  verifiedBy?: Types.ObjectId | null;
-  verifiedAt?: Date | null;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 // operations
-
-export interface IOperationChange {
-  field: string;
-  oldValue: any;
-  newValue: any;
-  dataType: "string" | "number" | "boolean" | "object" | "array" | "date";
-}
 
 export interface IOperationDescription {
   en: string;
@@ -95,8 +81,7 @@ export interface IOperationDescription {
 }
 
 export interface IOperation {
-  _id: Types.ObjectId;
-  operationId: string;
+  _id?: Types.ObjectId;
   action:
     | "USER_LOGIN"
     | "USER_LOGOUT"
@@ -117,12 +102,7 @@ export interface IOperation {
   entity: "USER" | "PRODUCT" | "CATEGORY" | "STOCK_MOVEMENT" | "SYSTEM";
   entityId?: Types.ObjectId | null;
   description: IOperationDescription;
-  changes?: IOperationChange[] | null;
-  user: Types.ObjectId;
-  userIp: string;
-  userAgent?: string | null;
-  timestamp: Date;
-  metadata?: any;
-  createdAt: Date;
-  updatedAt: Date;
+  user: Types.ObjectId | undefined;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

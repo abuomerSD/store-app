@@ -18,6 +18,9 @@ productRouter
   .route("/calculate-current-stock")
   .get(productController.calculateCurrentStock);
 
+productRouter.route("/incoming-qty").post(productController.addIncomingQty);
+productRouter.route("/outgoing-qty").post(productController.addOutgoingQty);
+
 productRouter
   .route("/:id")
   .get(productController.findById)

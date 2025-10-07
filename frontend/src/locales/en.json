@@ -24,7 +24,8 @@
     "english": "English",
     "language": "Language",
     "units": "Units",
-    "users": "Users"
+    "users": "Users",
+    "DoYouWantToLogout": "Do You Want To Logout"
   },
   "categories": {
     "search": "search",
@@ -65,7 +66,18 @@
     "outgoing": "Outgoing",
     "AddIncomingQty": "Add Incoming Quantity",
     "AddOutgoingQty": "Add Outgoing Quantity",
-    "incomingQty": "Incoming Quantity"
+    "incomingQty": "Incoming Quantity",
+    "notes": "Notes",
+    "QuantityAddedSuccessfully": "Quantity Added Successfully",
+    "QuantityDecreasedSuccessfully": "Quantity Decreased Successfully",
+    "outgoingQty": "Outgoing Quantity",
+    "productMovementReport": "Product Movement Report",
+    "productMovement": "Product Movement",
+    "report": "Report",
+    "MovementType": "Movement Type",
+    "Date": "Date",
+    "Quantity": "Quantity",
+    "note": "Note"
   },
   "catgories": {
     "enterCategoryName": "Enter Category Name",

@@ -2,11 +2,6 @@ import mongoose from "mongoose";
 
 const operationSchema = new mongoose.Schema(
   {
-    operationId: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     action: {
       type: String,
       required: true,
@@ -49,37 +44,11 @@ const operationSchema = new mongoose.Schema(
         required: true,
       },
     },
-    changes: [
-      {
-        field: {
-          type: String,
-          required: true,
-        },
-        oldValue: mongoose.Schema.Types.Mixed,
-        newValue: mongoose.Schema.Types.Mixed,
-        dataType: {
-          type: String,
-          enum: ["string", "number", "boolean", "object", "array", "date"],
-          required: true,
-        },
-      },
-    ],
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    userIp: {
-      type: String,
-      required: true,
-    },
-    userAgent: String,
-    timestamp: {
-      type: Date,
-      required: true,
-      default: Date.now,
-    },
-    metadata: mongoose.Schema.Types.Mixed,
   },
   {
     timestamps: true,

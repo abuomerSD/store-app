@@ -1,6 +1,9 @@
-import { Types } from "mongoose";
+import { ObjectId, Types } from "mongoose";
 import { ProductModel } from "../models/product.model";
-import { IProduct } from "../types";
+import { IOperation, IProduct, IStockMovement } from "../types";
+import { OperationModel } from "../models/operation.model";
+import { StockMovementModel } from "../models/stockMovement.model";
+import { SuccessResponse } from "../utils/responseTypes";
 
 const findAll = async (): Promise<IProduct[] | null> => {
   const products: IProduct[] = await ProductModel.find();
@@ -15,21 +18,67 @@ const findById = async (id: string): Promise<IProduct | null> => {
   return product;
 };
 
-const save = async (product: IProduct): Promise<IProduct> => {
+const save = async (
+  product: IProduct,
+  userId: Types.ObjectId
+): Promise<IProduct> => {
   const saved = await ProductModel.create(product);
+  if (saved) {
+    const operation: IOperation = {
+      action: "PRODUCT_CREATE",
+      entity: "PRODUCT",
+      entityId: saved._id,
+      description: {
+        en: "Product Created",
+        ar: "حفظ منتج",
+      },
+      user: userId,
+    };
+    await OperationModel.create(operation);
+  }
   return saved;
 };
 
 const updateById = async (
   id: string,
-  product: IProduct
+  product: IProduct,
+  userId: Types.ObjectId
 ): Promise<IProduct | null> => {
   const updated = await ProductModel.findOneAndUpdate({ _id: id }, product);
+  if (updated) {
+    const operation: IOperation = {
+      action: "PRODUCT_UPDATE",
+      entity: "PRODUCT",
+      entityId: updated._id,
+      description: {
+        en: "Product Updated",
+        ar: "تحديث منتج",
+      },
+      user: userId,
+    };
+    await OperationModel.create(operation);
+  }
   return updated;
 };
 
-const deleteById = async (id: string): Promise<IProduct | null> => {
+const deleteById = async (
+  id: string,
+  userId: Types.ObjectId
+): Promise<IProduct | null> => {
   const deleted = await ProductModel.findOneAndDelete({ _id: id });
+  if (deleted) {
+    const operation: IOperation = {
+      action: "PRODUCT_DELETE",
+      entity: "PRODUCT",
+      entityId: deleted._id,
+      description: {
+        en: "Product Deleted",
+        ar: "حذف منتج",
+      },
+      user: userId,
+    };
+    await OperationModel.create(operation);
+  }
   return deleted;
 };
 
@@ -144,6 +193,112 @@ const calculateCurrentStock = async (productId: string, unitName: string) => {
   }
 };
 
+const addIncomingQty = async (
+  productId: Types.ObjectId,
+  qty: number,
+  note: string,
+  userId: Types.ObjectId,
+  selectedUnit: string
+) => {
+  // validation qty
+  if (qty <= 0) {
+    throw new Error("quantity must be positive number");
+  }
+
+  const product = await ProductModel.findById(productId);
+  const unit = product?.units.find((u) => u.name === selectedUnit);
+  const unitsFactor = unit?.piecesInUnit ? unit?.piecesInUnit : 1;
+
+  const currentStock = product?.currentStock || 0;
+  const updated = await ProductModel.findOneAndUpdate(
+    { _id: productId },
+    { currentStock: qty * unitsFactor + currentStock }
+  );
+
+  // operation
+  const operation: IOperation = {
+    action: "STOCK_IN",
+    entity: "PRODUCT",
+    entityId: productId,
+    description: {
+      en: "Incomming Quantity",
+      ar: "كمية واردة",
+    },
+    user: userId,
+  };
+
+  const savedOperation = await OperationModel.create(operation);
+
+  // stock Movement
+  const stockMovement: IStockMovement = {
+    product: productId,
+    movementType: "IN",
+    quantity: qty,
+    note,
+    createdBy: userId,
+    operationId: savedOperation._id,
+  };
+
+  const savedStockMovement = await StockMovementModel.create(stockMovement);
+
+  return updated;
+};
+
+const addOutgoingQty = async (
+  productId: Types.ObjectId,
+  qty: number,
+  note: string,
+  userId: Types.ObjectId,
+  selectedUnit: string
+) => {
+  // validation qty
+  if (qty <= 0) {
+    throw new Error("quantity must be positive number");
+  }
+
+  const product = await ProductModel.findById(productId);
+  const unit = product?.units.find((u) => u.name === selectedUnit);
+  const unitsFactor = unit?.piecesInUnit ? unit?.piecesInUnit : 1;
+
+  const currentStock = product?.currentStock || 0;
+  const newCurrentStock = currentStock - qty * unitsFactor;
+  if (newCurrentStock < 0) {
+    throw new Error("Wrong Quantity");
+  }
+  const updated = await ProductModel.findOneAndUpdate(
+    { _id: productId },
+    { currentStock: newCurrentStock }
+  );
+
+  // operation
+  const operation: IOperation = {
+    action: "STOCK_OUT",
+    entity: "PRODUCT",
+    entityId: productId,
+    description: {
+      en: "Outgoing Quantity",
+      ar: "كمية منصرفة",
+    },
+    user: userId,
+  };
+
+  const savedOperation = await OperationModel.create(operation);
+
+  // stock Movement
+  const stockMovement: IStockMovement = {
+    product: productId,
+    movementType: "OUT",
+    quantity: qty,
+    note,
+    createdBy: userId,
+    operationId: savedOperation._id,
+  };
+
+  const savedStockMovement = await StockMovementModel.create(stockMovement);
+
+  return updated;
+};
+
 const productService = {
   findAll,
   findById,
@@ -156,6 +311,8 @@ const productService = {
   search,
   searchAll,
   calculateCurrentStock,
+  addIncomingQty,
+  addOutgoingQty,
 };
 
 export default productService;

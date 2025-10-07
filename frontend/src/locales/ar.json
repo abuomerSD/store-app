@@ -24,7 +24,8 @@
     "english": "انجليزي",
     "language": "اللغة",
     "units": "الوحدات",
-    "users": "المستخدمين"
+    "users": "المستخدمين",
+    "DoYouWantToLogout": "هل تريد تسجيل الخروج"
   },
   "categories": {
     "search": "بحث",
@@ -64,7 +65,17 @@
     "outgoing": "منصرف",
     "AddIncomingQty": "إضافة كمية واردة",
     "AddOutgoingQty": "اضافة كمية منصرفة",
-    "incomingQty": "الكمية الواردة"
+    "incomingQty": "الكمية الواردة",
+    "notes": "ملاحظات",
+    "QuantityAddedSuccessfully": "تم اضافة الكمية بنجاح",
+    "QuantityDecreasedSuccessfully": "تم انقاص الكمية بنجاح",
+    "outgoingQty": "الكمية المنصرفة",
+    "productMovementReport": "تقرير حركة الصنف",
+    "productMovement": "حركة الصنف",
+    "report": "تقرير",
+    "MovementType": "نوع الحركة",
+    "Quantity": "الكمية",
+    "note": "تفاصيل"
   },
   "catgories": {
     "enterCategoryName": "ادخل اسم التصنيف",

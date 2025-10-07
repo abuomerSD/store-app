@@ -21,7 +21,8 @@ const save = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user;
   if (user) {
     product.createdBy = new Types.ObjectId(user.id);
-    const saved = await productService.save(product);
+    const userId = new Types.ObjectId(user.id);
+    const saved = await productService.save(product, userId);
     res.status(201).json(new SuccessResponse({ product: saved }));
   } else {
     res.status(401).json(new FailResponse({ message: "no user logged in" }));
@@ -31,13 +32,17 @@ const save = asyncHandler(async (req: Request, res: Response) => {
 const updateById = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const product: IProduct = req.body;
-  const updated = await productService.updateById(id, product);
+  const user = req.user;
+  const userId = new Types.ObjectId(user?.id);
+  const updated = await productService.updateById(id, product, userId);
   res.status(200).json(new SuccessResponse({ product: updated }));
 });
 
 const deleteById = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const deleted = await productService.deleteById(id);
+  const user = req.user;
+  const userId = new Types.ObjectId(user?.id);
+  const deleted = await productService.deleteById(id, userId);
   res.status(200).json(new SuccessResponse({ product: deleted }));
 });
 
@@ -137,6 +142,33 @@ const calculateCurrentStock = asyncHandler(
   }
 );
 
+const addIncomingQty = asyncHandler(async (req: Request, res: Response) => {
+  const { productId, note, qty, selectedUnit } = req.body;
+  const user = req.user;
+  const userId = new Types.ObjectId(user?.id);
+  const updated = await productService.addIncomingQty(
+    productId,
+    qty,
+    note,
+    userId,
+    selectedUnit
+  );
+  res.status(201).json(new SuccessResponse({ product: updated }));
+});
+const addOutgoingQty = asyncHandler(async (req: Request, res: Response) => {
+  const { productId, note, qty, selectedUnit } = req.body;
+  const user = req.user;
+  const userId = new Types.ObjectId(user?.id);
+  const updated = await productService.addOutgoingQty(
+    productId,
+    qty,
+    note,
+    userId,
+    selectedUnit
+  );
+  res.status(201).json(new SuccessResponse({ product: updated }));
+});
+
 const productController = {
   findAll,
   findById,
@@ -149,6 +181,8 @@ const productController = {
   search,
   searchAll,
   calculateCurrentStock,
+  addIncomingQty,
+  addOutgoingQty,
 };
 
 export default productController;

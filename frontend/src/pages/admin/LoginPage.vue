@@ -54,8 +54,8 @@ export default {
           console.log(res);
           if (res.status === "success") {
             const authStore = useAuthStore();
-            authStore.login(res.data.user);
-            this.$router.push("/admin/dashboard");
+            authStore.login(res.data.user, res.data.auth_token);
+            this.$router.push({ name: "AdminDashboard" });
           }
         })
         .catch((err) => {
@@ -73,6 +73,7 @@ export default {
           }
         });
     },
+
     changeLanguage() {
       this.$i18n.locale = this.lang;
 

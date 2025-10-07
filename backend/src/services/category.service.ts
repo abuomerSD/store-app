@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import { ICategory } from "../types";
+import { ICategory, IOperation, IReqUser, IUser } from "../types";
 import { CategoryModel } from "../models/category.model";
-import { ObjectId } from "mongoose";
+import { ObjectId, Types } from "mongoose";
+import { OperationModel } from "../models/operation.model";
 
 const findAll = async (): Promise<ICategory[]> => {
   const categories = await CategoryModel.find();
@@ -18,19 +19,60 @@ const findById = async (id: string): Promise<ICategory | null> => {
 
 const save = async (category: ICategory): Promise<ICategory> => {
   const saved = await CategoryModel.create(category);
+  const operation: IOperation = {
+    action: "CATEGORY_CREATE",
+    entity: "CATEGORY",
+    entityId: saved._id,
+    description: {
+      en: "Category Created",
+      ar: "اضافة تصنيف",
+    },
+    user: category.createdBy,
+  };
+  await OperationModel.create(operation);
   return saved;
 };
 
 const updateById = async (
   id: string,
-  category: ICategory
+  category: ICategory,
+  userId: Types.ObjectId
 ): Promise<ICategory | null> => {
   const updated = await CategoryModel.findOneAndUpdate({ _id: id }, category);
+  if (updated) {
+    const operation: IOperation = {
+      action: "CATEGORY_UPDATE",
+      entity: "CATEGORY",
+      entityId: updated._id,
+      description: {
+        en: "Category Updated",
+        ar: "تعديل تصنيف",
+      },
+      user: userId,
+    };
+    await OperationModel.create(operation);
+  }
   return updated;
 };
 
-const deleteById = async (id: string): Promise<ICategory | null> => {
+const deleteById = async (
+  id: string,
+  userId: Types.ObjectId
+): Promise<ICategory | null> => {
   const deleted = await CategoryModel.findOneAndDelete({ _id: id });
+  if (deleted) {
+    const operation: IOperation = {
+      action: "CATEGORY_DELETE",
+      entity: "CATEGORY",
+      entityId: deleted._id,
+      description: {
+        en: "Category Deleted",
+        ar: "حذف تصنيف",
+      },
+      user: userId,
+    };
+    await OperationModel.create(operation);
+  }
   return deleted;
 };
 

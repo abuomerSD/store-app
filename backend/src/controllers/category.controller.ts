@@ -31,13 +31,24 @@ const save = asyncHandler(async (req: Request, res: Response) => {
 const updateById = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const category: ICategory = req.body;
-  const updated = await categoryService.updateById(id, category);
+  const user = req.user;
+  const userId = user?.id;
+  const updated = await categoryService.updateById(
+    id,
+    category,
+    new Types.ObjectId(userId)
+  );
   res.status(200).json(new SuccessResponse({ category: updated }));
 });
 
 const deleteById = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const deleted: ICategory | null = await categoryService.deleteById(id);
+  const user = req.user;
+  const userId = new Types.ObjectId(user?.id);
+  const deleted: ICategory | null = await categoryService.deleteById(
+    id,
+    userId
+  );
   res.status(200).json(new SuccessResponse({ category: deleted }));
 });
 

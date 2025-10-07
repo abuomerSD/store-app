@@ -74,7 +74,61 @@
             </li>
           </ul>
         </div>
-        <h6 class="nav-item text-white">{{ user.username }}</h6>
+        <h6 class="nav-item text-white ms-2 me-2">{{ user.username }}</h6>
+        <button
+          class="nav-item text-white btn btn-danger ms-2 me-2"
+          data-bs-toggle="modal"
+          data-bs-target="#logoutModal"
+        >
+          {{ $t("navbar.logout") }}
+        </button>
+      </div>
+    </div>
+    <!-- Modals -->
+    <div>
+      <!-- Add Category Modal -->
+      <div
+        class="modal fade"
+        id="logoutModal"
+        tabindex="-1"
+        aria-labelledby="logoutModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="logoutModalLabel">
+                {{ $t("categories.addCategory") }}
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              {{ $t("navbar.DoYouWantToLogout") }}
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                {{ $t("categories.cancel") }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                @click="logout"
+                data-bs-dismiss="modal"
+              >
+                {{ $t("navbar.logout") }}
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -100,6 +154,18 @@ export default {
     },
     setLangToEn() {
       this.lang = "en";
+    },
+    async logout() {
+      await this.$http
+        .post("auth/logout", {})
+        .then((res) => {
+          console.log(res);
+          this.$router.push({ name: "AdminLogin" });
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$toast.error(err.message);
+        });
     },
   },
   mounted() {

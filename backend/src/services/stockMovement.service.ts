@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { ICategory, IStockMovement } from "../types";
 import { StockMovementModel } from "../models/stockMovement.model";
+import { Types } from "mongoose";
 
 const findAll = async (): Promise<IStockMovement[] | null> => {
   const movements: IStockMovement[] = await StockMovementModel.find();
@@ -39,12 +40,35 @@ const deleteById = async (id: string): Promise<IStockMovement | null> => {
   return deleted;
 };
 
+const paginateByProductId = async (
+  page: number,
+  limit: number,
+  id: Types.ObjectId
+) => {
+  const skip = (page - 1) * limit;
+  console.log("id", id);
+  const movements = await StockMovementModel.find();
+  // const movements = await StockMovementModel.find({ product: id })
+  //   .populate("createdBy", "username")
+  //   .limit(limit)
+  //   .skip(skip)
+  //   .sort({ createdAt: -1 });
+
+  console.log("movements", movements);
+  const total_rows = (await StockMovementModel.find()).length;
+  return {
+    total_rows,
+    movements,
+  };
+};
+
 const stockMovementService = {
   findAll,
   findById,
   save,
   updateById,
   deleteById,
+  paginateByProductId,
 };
 
 export default stockMovementService;
