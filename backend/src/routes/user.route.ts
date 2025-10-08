@@ -1,6 +1,7 @@
 import express from "express";
 import userController from "../controllers/user.controller";
 import { authMiddleware, roleAuthMiddleware } from "../middlewares/auth";
+import { validateUser } from "../middlewares/validations/userValidationMiddleware";
 
 export const userRouter = express.Router();
 
@@ -60,14 +61,24 @@ export const userRouter = express.Router();
 userRouter
   .route("/")
   .get(authMiddleware, roleAuthMiddleware(["admin"]), userController.findAll)
-  .post(authMiddleware, roleAuthMiddleware(["admin"]), userController.save);
+  .post(
+    authMiddleware,
+    roleAuthMiddleware(["admin"]),
+    validateUser,
+    userController.save
+  );
 
 userRouter.route("/paginate").get(userController.paginate);
 
 userRouter
   .route("/:id")
   .get(authMiddleware, roleAuthMiddleware(["admin"]), userController.findById)
-  .put(authMiddleware, roleAuthMiddleware(["admin"]), userController.updateById)
+  .put(
+    authMiddleware,
+    roleAuthMiddleware(["admin"]),
+    validateUser,
+    userController.updateById
+  )
   .delete(
     authMiddleware,
     roleAuthMiddleware(["admin"]),

@@ -3,7 +3,7 @@ import { IProduct, IUnit } from "../types";
 
 const unitSchema = new Schema<IUnit>(
   {
-    name: { type: String, required: true, trim: true },
+    name: { type: String, required: true, trim: true, unique: true },
     isBaseUnit: { type: Boolean, default: false },
     piecesInUnit: { type: Number, required: true, min: 1 },
   },

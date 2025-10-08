@@ -270,8 +270,13 @@ export default {
         return;
       }
 
+      const payload = {
+        name: this.selectedCategory.name,
+        description: this.selectedCategory.description,
+      };
+
       await this.$http
-        .put("categories", this.selectedCategory._id, this.selectedCategory)
+        .put("categories", this.selectedCategory._id, payload)
         .then(async (res) => {
           console.log(res);
           if (res.status === "success") {

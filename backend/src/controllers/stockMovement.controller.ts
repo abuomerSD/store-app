@@ -38,9 +38,19 @@ const deleteById = asyncHandler(async (req: Request, res: Response) => {
 const paginateByProductId = asyncHandler(
   async (req: Request, res: Response) => {
     const { pageStr, limitStr, id } = req.query;
-    const page = Number(pageStr);
-    const limit = Number(limitStr);
-    const productId = new Types.ObjectId(id?.toString());
+
+    const page = Number(pageStr) || 1;
+    const limit = Number(limitStr) || 10;
+
+    console.log("id", req.query.id);
+
+    if (!id || Array.isArray(id) || typeof id !== "string") {
+      res.status(400).json({ message: "Invalid product ID" });
+      throw new Error("No correct product id provided");
+    }
+
+    const productId = new Types.ObjectId(id);
+
     const { movements, total_rows } =
       await stockMovementService.paginateByProductId(page, limit, productId);
 

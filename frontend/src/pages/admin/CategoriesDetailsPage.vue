@@ -290,6 +290,7 @@
                   <tr>
                     <th>{{ $t("categories.UnitName") }}</th>
                     <th>{{ $t("categories.PiecesPerUnit") }}</th>
+                    <th>{{ $t("categories.actions") }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -299,6 +300,14 @@
                   >
                     <td>{{ unit.name }}</td>
                     <td>{{ unit.piecesInUnit }}</td>
+                    <td>
+                      <i
+                        class="fa-solid fa-lg fa-pen-to-square text-primary icon"
+                        data-bs-toggle="modal"
+                        data-bs-target="#EditProductUnitModal"
+                        @click="selectUnit(unit)"
+                      ></i>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -518,10 +527,11 @@
                   </thead>
                   <tbody>
                     <tr v-for="(movement, index) in movements" :key="index">
-                      <td>{{ index }}</td>
+                      <td>{{ index + 1 }}</td>
                       <td>
                         {{ new Date(movement.createdAt).toLocaleDateString() }}
                       </td>
+                      <td>{{ movement.movementType }}</td>
                       <td>{{ movement.quantity }}</td>
                       <td>{{ movement.note }}</td>
                       <td>{{ movement.createdBy.username }}</td>
@@ -537,6 +547,63 @@
                   aria-controls="my-table"
                 />
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- edit unit modal -->
+      <div
+        class="modal fade"
+        id="EditProductUnitModal"
+        tabindex="-1"
+        aria-labelledby="EditProductUnitModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="EditProductUnitModalLabel">
+                {{ $t("categories.EditProductUnit") }}
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <label for="">{{ $t("categories.UnitName") }}</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="selectedUnit.name"
+              />
+              <label for="">{{ $t("categories.PiecesPerUnit") }}</label>
+              <input
+                type="number"
+                min="1"
+                class="form-control"
+                v-model="selectedUnit.piecesInUnit"
+              />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                {{ $t("units.cancel") }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                @click="updateProductUnit"
+              >
+                {{ $t("units.update") }}
+              </button>
             </div>
           </div>
         </div>
@@ -567,7 +634,8 @@ export default {
       movements: [],
       movements_total_rows: 0,
       movements_page: 1,
-      movements_limit: 10,
+      movements_limit: PAGE_LIMIT,
+      selectedUnit: {},
     };
   },
   methods: {
@@ -729,7 +797,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-          this.$toast.error(err.message);
+          this.$toast.error(err.response.data.error.message);
         });
     },
     async addOutgoingQty() {
@@ -770,16 +838,44 @@ export default {
     async showProductMovement(product) {
       this.selectedProduct = product;
       await this.$http
-        .get("stock-movements/paginate-by-product-id")
+        .get(
+          `stock-movements/paginate-by-product-id?pageStr=${this.movements_page}&limitStr=${this.movements_limit}&id=${this.selectedProduct._id}`
+        )
         .then((res) => {
           console.log(res);
-          this.movements = res.movements;
-          this.movements_total_rows = res.total_rows;
+          this.movements = res.data.movements;
+          this.movements_total_rows = res.data.total_rows;
         })
         .catch((err) => {
           console.error(err);
           this.$toast.error(err.message);
         });
+    },
+    async updateProductUnit() {
+      // validations
+      if (!this.unit.name || !this.unit.piecesInUnit) {
+        this.$toast.warning(this.$t("categories.FillAllFields"));
+        return;
+      }
+      await this.$http
+        .put(
+          `products/add-unit/${productId}`,
+          this.selectedUnit,
+          this.selectedUnit
+        )
+        .then(async (res) => {
+          console.log(res);
+          this.$toast.success(this.$t("categories.UnitAddedSuccessfully"));
+          this.unit = {};
+          await this.paginate();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$toast.error(err.message);
+        });
+    },
+    selectUnit(unit) {
+      this.selectedUnit = unit;
     },
   },
   async mounted() {
@@ -794,6 +890,9 @@ export default {
       } else {
         await this.handleSearch();
       }
+    },
+    async movements_page(val) {
+      await this.showProductMovement(this.selectedProduct);
     },
   },
 };

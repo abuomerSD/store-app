@@ -1,13 +1,19 @@
 import express from "express";
 import categoryController from "../controllers/category.controller";
 import { authMiddleware, roleAuthMiddleware } from "../middlewares/auth";
+import { validateCategory } from "../middlewares/validations/categoryValidationMiddleware";
 
 export const categoryRouter = express.Router();
 
 categoryRouter
   .route("/")
   .get(categoryController.findAll)
-  .post(authMiddleware, roleAuthMiddleware(["admin"]), categoryController.save);
+  .post(
+    authMiddleware,
+    roleAuthMiddleware(["admin"]),
+    validateCategory,
+    categoryController.save
+  );
 
 categoryRouter.route("/paginate").get(categoryController.paginate);
 categoryRouter.route("/search").get(categoryController.search);
@@ -18,6 +24,8 @@ categoryRouter
   .put(
     authMiddleware,
     roleAuthMiddleware(["admin", "user"]),
+    validateCategory,
+
     categoryController.updateById
   )
   .delete(

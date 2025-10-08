@@ -14,6 +14,12 @@ import { productRouter } from "./routes/product.route";
 import { operationRouter } from "./routes/operation.route";
 import { stockMovementRouter } from "./routes/stockMovement.route";
 import { unitDefinitionRouter } from "./routes/unitDefinition.route";
+import { dashboardRouter } from "./routes/dashboard.route";
+import { limiter } from "./utils/rateLimiter";
+import helmet from "helmet";
+import mongoSanitize from "express-mongo-sanitize";
+// import xss from "xss-clean";
+import hpp from "hpp";
 
 const app = express();
 
@@ -38,14 +44,21 @@ if (NODE_ENV === "development") {
 
 // cors
 
-// app.use(cors());
-
 app.use(
   cors({
     origin: CORS_ORIGIN,
     credentials: true,
   })
 );
+
+// rate limiter
+app.use(limiter);
+
+// security
+app.use(helmet());
+// app.use(mongoSanitize());
+// app.use(xss());
+app.use(hpp());
 
 // routes
 app.use("/api/users", userRouter);
@@ -55,6 +68,7 @@ app.use("/api/products", productRouter);
 app.use("/api/operations", operationRouter);
 app.use("/api/stock-movements", stockMovementRouter);
 app.use("/api/units", unitDefinitionRouter);
+app.use("/api/dashboard", dashboardRouter);
 
 // not found middleware
 

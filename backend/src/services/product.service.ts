@@ -1,9 +1,8 @@
-import { ObjectId, Types } from "mongoose";
+import { Types } from "mongoose";
 import { ProductModel } from "../models/product.model";
-import { IOperation, IProduct, IStockMovement } from "../types";
+import { IOperation, IProduct, IStockMovement, IUnit } from "../types";
 import { OperationModel } from "../models/operation.model";
 import { StockMovementModel } from "../models/stockMovement.model";
-import { SuccessResponse } from "../utils/responseTypes";
 
 const findAll = async (): Promise<IProduct[] | null> => {
   const products: IProduct[] = await ProductModel.find();
@@ -90,7 +89,7 @@ const paginate = async (page: number, limit: number, categoryId: string) => {
     .limit(limit)
     .skip(skip)
     .sort({ createdAt: -1 });
-  const total_rows = (await ProductModel.find()).length;
+  const total_rows = (await ProductModel.find({ category: categoryId })).length;
   return {
     total_rows,
     products,
@@ -219,7 +218,7 @@ const addIncomingQty = async (
   const operation: IOperation = {
     action: "STOCK_IN",
     entity: "PRODUCT",
-    entityId: productId,
+    entityId: new Types.ObjectId(productId),
     description: {
       en: "Incomming Quantity",
       ar: "كمية واردة",
@@ -230,10 +229,11 @@ const addIncomingQty = async (
   const savedOperation = await OperationModel.create(operation);
 
   // stock Movement
+  console.log("type of product id", typeof new Types.ObjectId(productId));
   const stockMovement: IStockMovement = {
-    product: productId,
+    product: new Types.ObjectId(productId),
     movementType: "IN",
-    quantity: qty,
+    quantity: qty * unitsFactor,
     note,
     createdBy: userId,
     operationId: savedOperation._id,
@@ -288,7 +288,7 @@ const addOutgoingQty = async (
   const stockMovement: IStockMovement = {
     product: productId,
     movementType: "OUT",
-    quantity: qty,
+    quantity: qty * unitsFactor,
     note,
     createdBy: userId,
     operationId: savedOperation._id,
@@ -297,6 +297,43 @@ const addOutgoingQty = async (
   const savedStockMovement = await StockMovementModel.create(stockMovement);
 
   return updated;
+};
+
+const paginateProductsUnderDemandLimit = async (
+  page: number,
+  limit: number
+) => {
+  const skip = (page - 1) * limit;
+  const products = await ProductModel.find({
+    $expr: { $lt: ["$currentStock", "$minStockQty"] },
+  })
+    .skip(skip)
+    .limit(limit);
+  const total_rows = await ProductModel.countDocuments({
+    $expr: { $lt: ["$currentStock", "$minStockQty"] },
+  });
+
+  return { products, total_rows };
+};
+
+const updateUnitByName = async (
+  piecesInUnit: number,
+  productId: Types.ObjectId,
+  oldUnitName: string,
+  newUnitName: string
+) => {
+  const updatedProduct = await ProductModel.findOneAndUpdate(
+    { _id: productId, "units.name": oldUnitName }, // find product + match unit name
+    {
+      $set: {
+        "units.$.piecesInUnit": piecesInUnit,
+        "units.$.name": newUnitName,
+      },
+    },
+    { new: true }
+  ); // return updated document
+
+  return updatedProduct;
 };
 
 const productService = {
@@ -313,6 +350,8 @@ const productService = {
   calculateCurrentStock,
   addIncomingQty,
   addOutgoingQty,
+  paginateProductsUnderDemandLimit,
+  updateUnitByName,
 };
 
 export default productService;

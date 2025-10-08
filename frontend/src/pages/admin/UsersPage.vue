@@ -28,7 +28,7 @@
               <th scope="col">{{ $t("users.username") }}</th>
               <th scope="col">{{ $t("categories.createdAt") }}</th>
               <th scope="col">{{ $t("categories.updatedAt") }}</th>
-              <th scope="col">{{ $t("categories.actions") }}</th>
+              <!-- <th scope="col">{{ $t("categories.actions") }}</th> -->
             </tr>
           </thead>
           <tbody>
@@ -37,14 +37,13 @@
               <td>{{ user.username }}</td>
               <td>{{ new Date(user.createdAt).toLocaleDateString() }}</td>
               <td>{{ new Date(user.updatedAt).toLocaleDateString() }}</td>
-              <td>
+              <!-- <td>
                 <i
                   class="fa-solid fa-lg fa-pen-to-square text-primary icon"
                   data-bs-toggle="modal"
                   data-bs-target="#editUnitModal"
-                  @click="selectUser(user)"
                 ></i>
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>

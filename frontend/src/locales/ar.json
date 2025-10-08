@@ -75,7 +75,8 @@
     "report": "تقرير",
     "MovementType": "نوع الحركة",
     "Quantity": "الكمية",
-    "note": "تفاصيل"
+    "note": "تفاصيل",
+    "EditProductUnit": "تعديل وحدة"
   },
   "catgories": {
     "enterCategoryName": "ادخل اسم التصنيف",
@@ -107,6 +108,17 @@
     "ChooseUnit": "اختر الوحدة",
     "code": "الكود",
     "name": "اسم المنتج",
-    "Quantity": "الكمية"
+    "Quantity": "الكمية",
+    "DemandLimit": "حد الطلب",
+    "currentStock": "المخزون الحالي",
+    "DemanadLimit": "حد الطلب"
+  },
+  "dashborad": {
+    "categories": "التصنيفات"
+  },
+  "dashboard": {
+    "products": "المنتجات",
+    "users": "المستخدمين",
+    "title": "الصفحة الرئيسية"
   }
 }

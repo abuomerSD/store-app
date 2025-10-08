@@ -74,7 +74,7 @@
             </li>
           </ul>
         </div>
-        <h6 class="nav-item text-white ms-2 me-2">{{ user.username }}</h6>
+        <span class="nav-item text-white ms-2 me-2">{{ user.username }}</span>
         <button
           class="nav-item text-white btn btn-danger ms-2 me-2"
           data-bs-toggle="modal"

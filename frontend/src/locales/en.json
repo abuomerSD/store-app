@@ -77,7 +77,8 @@
     "MovementType": "Movement Type",
     "Date": "Date",
     "Quantity": "Quantity",
-    "note": "Note"
+    "note": "Note",
+    "EditProductUnit": "Edit Product Unit"
   },
   "catgories": {
     "enterCategoryName": "Enter Category Name",
@@ -110,6 +111,17 @@
     "ChooseUnit": "Choose Unit",
     "code": "Code",
     "name": "Name",
-    "Quantity": "Quantity"
+    "Quantity": "Quantity",
+    "DemandLimit": "Demand Limit",
+    "currentStock": "Current Stock",
+    "DemanadLimit": "Demand Limit"
+  },
+  "dashborad": {
+    "categories": "Categories"
+  },
+  "dashboard": {
+    "products": "Products",
+    "users": "Users",
+    "title": "Dashboard"
   }
 }

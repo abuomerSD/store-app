@@ -145,7 +145,12 @@ const calculateCurrentStock = asyncHandler(
 const addIncomingQty = asyncHandler(async (req: Request, res: Response) => {
   const { productId, note, qty, selectedUnit } = req.body;
   const user = req.user;
+  if (!user) {
+    throw new Error("Please Login Again");
+  }
+  console.log("user", req.user);
   const userId = new Types.ObjectId(user?.id);
+  console.log("userId", userId);
   const updated = await productService.addIncomingQty(
     productId,
     qty,
@@ -158,6 +163,9 @@ const addIncomingQty = asyncHandler(async (req: Request, res: Response) => {
 const addOutgoingQty = asyncHandler(async (req: Request, res: Response) => {
   const { productId, note, qty, selectedUnit } = req.body;
   const user = req.user;
+  if (!user) {
+    throw new Error("Please Login Again");
+  }
   const userId = new Types.ObjectId(user?.id);
   const updated = await productService.addOutgoingQty(
     productId,
@@ -167,6 +175,28 @@ const addOutgoingQty = asyncHandler(async (req: Request, res: Response) => {
     selectedUnit
   );
   res.status(201).json(new SuccessResponse({ product: updated }));
+});
+
+const paginateProductsUnderDemandLimit = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { pageStr, limitStr } = req.query;
+    const page = Number(pageStr);
+    const limit = Number(limitStr);
+    const { products, total_rows } =
+      await productService.paginateProductsUnderDemandLimit(page, limit);
+    res.status(200).json(new SuccessResponse({ products, total_rows }));
+  }
+);
+
+const updateUnitByName = asyncHandler(async (req: Request, res: Response) => {
+  const { piecesInUnit, productId, oldUnitName, newUnitName } = req.body;
+  const updated = await productService.updateUnitByName(
+    piecesInUnit,
+    productId,
+    oldUnitName,
+    newUnitName
+  );
+  res.status(200).json(new SuccessResponse({ product: updated }));
 });
 
 const productController = {
@@ -183,6 +213,8 @@ const productController = {
   calculateCurrentStock,
   addIncomingQty,
   addOutgoingQty,
+  paginateProductsUnderDemandLimit,
+  updateUnitByName,
 };
 
 export default productController;

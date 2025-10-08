@@ -46,16 +46,17 @@ const paginateByProductId = async (
   id: Types.ObjectId
 ) => {
   const skip = (page - 1) * limit;
+  console.log("type of id", typeof id);
   console.log("id", id);
-  const movements = await StockMovementModel.find();
-  // const movements = await StockMovementModel.find({ product: id })
-  //   .populate("createdBy", "username")
-  //   .limit(limit)
-  //   .skip(skip)
-  //   .sort({ createdAt: -1 });
+  // const movements = await StockMovementModel.find();
+  const movements = await StockMovementModel.find({ product: id })
+    .populate("createdBy", "username")
+    .limit(limit)
+    .skip(skip)
+    .sort({ createdAt: -1 });
 
   console.log("movements", movements);
-  const total_rows = (await StockMovementModel.find()).length;
+  const total_rows = (await StockMovementModel.find({ product: id })).length;
   return {
     total_rows,
     movements,
