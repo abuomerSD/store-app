@@ -136,6 +136,7 @@ const search = async (
     category: categoryId,
   })
     .populate("createdBy", "username")
+    .populate("category", "name")
     .limit(limit)
     .skip(skip)
     .sort({ createdAt: -1 });
@@ -157,6 +158,7 @@ const searchAll = async (search: string, page: number, limit: number) => {
     name: { $regex: search, $options: "i" },
   })
     .populate("createdBy", "username")
+    .populate("category", "name")
     .limit(limit)
     .skip(skip)
     .sort({ createdAt: -1 });

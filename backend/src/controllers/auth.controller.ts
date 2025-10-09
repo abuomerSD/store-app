@@ -81,13 +81,13 @@ const login = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const verify = asyncHandler(async (req: Request, res: Response) => {
-  const { auth_token } = req.cookies;
+  const { auth_token } = req.body;
   const decoded = jwt.verify(auth_token, JWT_SECRET);
   console.log(decoded);
   if (decoded) {
     res.status(200).json(new SuccessResponse({ decoded }));
   } else {
-    res.status(400).json(new FailResponse({ message: "token Not Valid" }));
+    throw new Error("token Not Valid");
   }
 });
 

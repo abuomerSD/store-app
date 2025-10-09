@@ -189,12 +189,13 @@ const paginateProductsUnderDemandLimit = asyncHandler(
 );
 
 const updateUnitByName = asyncHandler(async (req: Request, res: Response) => {
-  const { piecesInUnit, productId, oldUnitName, newUnitName } = req.body;
+  const { piecesInUnit, oldUnitName, name } = req.body;
+  const { productId } = req.params;
   const updated = await productService.updateUnitByName(
     piecesInUnit,
-    productId,
+    new Types.ObjectId(productId),
     oldUnitName,
-    newUnitName
+    name
   );
   res.status(200).json(new SuccessResponse({ product: updated }));
 });

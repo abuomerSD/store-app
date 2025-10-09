@@ -636,6 +636,7 @@ export default {
       movements_page: 1,
       movements_limit: PAGE_LIMIT,
       selectedUnit: {},
+      oldUnitName: "",
     };
   },
   methods: {
@@ -853,19 +854,29 @@ export default {
     },
     async updateProductUnit() {
       // validations
-      if (!this.unit.name || !this.unit.piecesInUnit) {
+      if (!this.selectedUnit.name || !this.selectedUnit.piecesInUnit) {
         this.$toast.warning(this.$t("categories.FillAllFields"));
         return;
       }
+
+      if (this.oldUnitName === "piece") {
+        this.$toast.warning(this.$t("categories.YouCantChangeThisUnitName"));
+        return;
+      }
+
+      const productId = this.selectedProduct._id;
+
+      const payload = {
+        piecesInUnit: this.selectedUnit.piecesInUnit,
+        oldUnitName: this.oldUnitName,
+        name: this.selectedUnit.name,
+      };
+
       await this.$http
-        .put(
-          `products/add-unit/${productId}`,
-          this.selectedUnit,
-          this.selectedUnit
-        )
+        .put(`products/update-unit-by-name`, productId, payload)
         .then(async (res) => {
           console.log(res);
-          this.$toast.success(this.$t("categories.UnitAddedSuccessfully"));
+          this.$toast.success(this.$t("categories.UnitUpdatedSuccessfully"));
           this.unit = {};
           await this.paginate();
         })
@@ -876,6 +887,7 @@ export default {
     },
     selectUnit(unit) {
       this.selectedUnit = unit;
+      this.oldUnitName = unit.name;
     },
   },
   async mounted() {

@@ -78,7 +78,9 @@
     "Date": "Date",
     "Quantity": "Quantity",
     "note": "Note",
-    "EditProductUnit": "Edit Product Unit"
+    "EditProductUnit": "Edit Product Unit",
+    "YouCantChangeThisUnitName": "You Can't Change This Unit Data",
+    "UnitUpdatedSuccessfully": "Unit Updated Successfully"
   },
   "catgories": {
     "enterCategoryName": "Enter Category Name",

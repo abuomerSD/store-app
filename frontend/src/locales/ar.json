@@ -76,7 +76,9 @@
     "MovementType": "نوع الحركة",
     "Quantity": "الكمية",
     "note": "تفاصيل",
-    "EditProductUnit": "تعديل وحدة"
+    "EditProductUnit": "تعديل وحدة",
+    "YouCantChangeThisUnitName": "لا يمكنك تغيير بيانات هذه الوحدة",
+    "UnitUpdatedSuccessfully": "تم تحديث الوحدة بنجاح"
   },
   "catgories": {
     "enterCategoryName": "ادخل اسم التصنيف",

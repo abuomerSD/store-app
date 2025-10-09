@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
+import axios from "axios";
+
 import { useAuthStore } from "../stores/auth";
 import LoginPage from "../pages/admin/LoginPage.vue";
 import DashboardPage from "../pages/admin/DashboardPage.vue";
@@ -58,9 +60,21 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem("auth_token");
-  if (to.meta.requiresAuth && !token) {
+router.beforeEach(async (to, from, next) => {
+  const auth_token = localStorage.getItem("auth_token");
+  let isAuthenticated = false;
+  await axios
+    .post(`${API_URL}auth/verify-token`, { auth_token })
+    .then((res) => {
+      console.log("verify res", res);
+      if (res.status === "success") {
+        isAuthenticated = true;
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  if (to.meta.requiresAuth && !auth_token && !isAuthenticated) {
     next("/admin/login");
   } else {
     next();

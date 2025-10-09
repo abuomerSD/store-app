@@ -6,4 +6,4 @@ export const authRouter = express.Router();
 
 authRouter.route("/login").post(validateLogin, authController.login);
 authRouter.route("/logout").post(authController.logout);
-authRouter.route("/verify-token").get(validateLogin, authController.verify);
+authRouter.route("/verify-token").post(authController.verify);

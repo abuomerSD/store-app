@@ -3,7 +3,10 @@ import productController from "../controllers/product.controller";
 import { authMiddleware, roleAuthMiddleware } from "../middlewares/auth";
 import { validateProduct } from "../middlewares/validations/productValidationMiddleware";
 import { validateProductMovement } from "../middlewares/validations/productMovementValidationMiddleware";
-import { validateUnit } from "../middlewares/validations/unitValidationMiddleware";
+import {
+  validateUnit,
+  validateUpdateUnit,
+} from "../middlewares/validations/unitValidationMiddleware";
 
 export const productRouter = express.Router();
 
@@ -52,11 +55,11 @@ productRouter
   );
 
 productRouter
-  .route("/update-unit-by-name")
+  .route("/update-unit-by-name/:productId")
   .put(
     authMiddleware,
     roleAuthMiddleware(["admin", "user"]),
-    validateUnit,
+    validateUpdateUnit,
     productController.updateUnitByName
   );
 

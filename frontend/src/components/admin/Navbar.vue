@@ -160,6 +160,8 @@ export default {
         .post("auth/logout", {})
         .then((res) => {
           console.log(res);
+          const authStore = useAuthStore();
+          authStore.logout();
           this.$router.push({ name: "AdminLogin" });
         })
         .catch((err) => {
