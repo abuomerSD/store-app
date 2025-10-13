@@ -23,12 +23,12 @@ const unitSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    // autoIndex: false,
+    autoIndex: false,
   }
 );
 
 // Indexes
-unitSchema.index({ unitType: 1 });
-unitSchema.index({ isActive: 1 });
+// unitSchema.index({ unitType: 1 });
+// unitSchema.index({ isActive: 1 });
 
 export const UnitDefinitionModel = mongoose.model("UnitDefinition", unitSchema);

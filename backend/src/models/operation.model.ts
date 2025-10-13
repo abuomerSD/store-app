@@ -52,16 +52,16 @@ const operationSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    // autoIndex: false,
+    autoIndex: false,
   }
 );
 
 // Indexes for performance
-operationSchema.index({ timestamp: -1 });
-operationSchema.index({ user: 1, timestamp: -1 });
-operationSchema.index({ entity: 1, entityId: 1 });
-operationSchema.index({ action: 1, timestamp: -1 });
-operationSchema.index({ "description.en": "text", "description.ar": "text" });
+// operationSchema.index({ timestamp: -1 });
+// operationSchema.index({ user: 1, timestamp: -1 });
+// operationSchema.index({ entity: 1, entityId: 1 });
+// operationSchema.index({ action: 1, timestamp: -1 });
+// operationSchema.index({ "description.en": "text", "description.ar": "text" });
 
 // Static method to generate operation ID
 operationSchema.statics.generateOperationId = function () {

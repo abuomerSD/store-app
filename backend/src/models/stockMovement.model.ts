@@ -33,16 +33,16 @@ const stockMovementSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    // autoIndex: false,
+    autoIndex: false,
   }
 );
 
 // Indexes
-stockMovementSchema.index({ product: 1, date: -1 });
-stockMovementSchema.index({ movementType: 1 });
-stockMovementSchema.index({ date: -1 });
-stockMovementSchema.index({ createdBy: 1 });
-stockMovementSchema.index({ reference: 1 });
+// stockMovementSchema.index({ product: 1, date: -1 });
+// stockMovementSchema.index({ movementType: 1 });
+// stockMovementSchema.index({ date: -1 });
+// stockMovementSchema.index({ createdBy: 1 });
+// stockMovementSchema.index({ reference: 1 });
 
 export const StockMovementModel = mongoose.model(
   "StockMovement",
