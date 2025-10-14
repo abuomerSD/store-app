@@ -58,7 +58,7 @@ productRouter
   .route("/update-unit-by-name/:productId")
   .put(
     authMiddleware,
-    roleAuthMiddleware(["admin", "user"]),
+    roleAuthMiddleware(["admin"]),
     validateUpdateUnit,
     productController.updateUnitByName
   );
@@ -68,12 +68,12 @@ productRouter
   .get(productController.findById)
   .put(
     authMiddleware,
-    roleAuthMiddleware(["admin", "user"]),
+    roleAuthMiddleware(["admin"]),
     validateProduct,
     productController.updateById
   )
   .delete(
     authMiddleware,
-    roleAuthMiddleware(["admin", "user"]),
+    roleAuthMiddleware(["admin"]),
     productController.deleteById
   );

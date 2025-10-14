@@ -734,8 +734,19 @@ export default {
         return;
       }
 
+      const payload = {
+        code: this.selectedProduct.code,
+        name: this.selectedProduct.name,
+        description: this.selectedProduct.description,
+        minStockQty: this.selectedProduct.minStockQty,
+        category: this.selectedProduct.category._id,
+        units: this.selectedProduct.units,
+      };
+
+      console.log("payload", payload);
+
       await this.$http
-        .put(`products`, this.selectedProduct._id, this.selectedProduct)
+        .put(`products`, this.selectedProduct._id, payload)
         .then((res) => {
           console.log(res);
           this.$toast.success(this.$t("categories.ProductUpdatedSuccessfully"));

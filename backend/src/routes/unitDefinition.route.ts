@@ -14,13 +14,9 @@ unitDefinitionRouter.route("/paginate").get(unitController.paginate);
 unitDefinitionRouter
   .route("/:id")
   .get(authMiddleware, roleAuthMiddleware(["admin"]), unitController.findById)
-  .put(
-    authMiddleware,
-    roleAuthMiddleware(["admin", "user"]),
-    unitController.updateById
-  )
+  .put(authMiddleware, roleAuthMiddleware(["admin"]), unitController.updateById)
   .delete(
     authMiddleware,
-    roleAuthMiddleware(["admin", "user"]),
+    roleAuthMiddleware(["admin"]),
     unitController.deleteById
   );

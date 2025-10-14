@@ -23,13 +23,13 @@ categoryRouter
   .get(categoryController.findById)
   .put(
     authMiddleware,
-    roleAuthMiddleware(["admin", "user"]),
+    roleAuthMiddleware(["admin"]),
     validateCategory,
 
     categoryController.updateById
   )
   .delete(
     authMiddleware,
-    roleAuthMiddleware(["admin", "user"]),
+    roleAuthMiddleware(["admin"]),
     categoryController.deleteById
   );
