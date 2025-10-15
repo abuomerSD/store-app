@@ -10,11 +10,12 @@ const messages = {
 const savedLocale = localStorage.getItem("locale") || "en";
 
 const i18n = createI18n({
-  legacy: false,
-  globalInjection: true,
+  legacy: true,
   locale: savedLocale,
   fallbackLocale: "en",
   messages,
+  missingWarn: false,
+  fallbackWarn: false,
 });
 
 export default i18n;
