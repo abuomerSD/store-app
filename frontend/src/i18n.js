@@ -10,7 +10,8 @@ const messages = {
 const savedLocale = localStorage.getItem("locale") || "en";
 
 const i18n = createI18n({
-  legacy: true,
+  legacy: false,
+  globalInjection: true,
   locale: savedLocale,
   fallbackLocale: "en",
   messages,
