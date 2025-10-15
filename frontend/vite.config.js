@@ -9,15 +9,14 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   plugins: [
     vue(),
-    VueI18nPlugin({
-      include: resolve(__dirname, "src/locales/**"),
-      runtimeOnly: false,
-      compositionOnly: false,
-      fullInstall: true,
-    }),
+    // VueI18nPlugin({
+    //   include: resolve(__dirname, "src/locales/**"),
+    //   runtimeOnly: false,
+    //   compositionOnly: false, // Important for Options API
+    // }),
   ],
   build: {
-    // Ensure JSON files are properly processed
+    // Ensure JSON files are properly included
     assetsInclude: ["**/*.json"],
   },
 });
