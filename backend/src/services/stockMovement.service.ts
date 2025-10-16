@@ -63,6 +63,18 @@ const paginateByProductId = async (
   };
 };
 
+const getProductMovementReport = async (id: Types.ObjectId) => {
+  const movements = await StockMovementModel.find({ product: id })
+    .populate("createdBy", "username")
+    .sort({ createdAt: -1 });
+
+  const total_rows = (await StockMovementModel.find({ product: id })).length;
+  return {
+    total_rows,
+    movements,
+  };
+};
+
 const stockMovementService = {
   findAll,
   findById,
@@ -70,6 +82,7 @@ const stockMovementService = {
   updateById,
   deleteById,
   paginateByProductId,
+  getProductMovementReport,
 };
 
 export default stockMovementService;

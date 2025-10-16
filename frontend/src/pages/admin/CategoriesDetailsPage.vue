@@ -547,6 +547,14 @@
                   aria-controls="my-table"
                 />
               </div>
+              <div class="d-flex justify-content-center align-items-center">
+                <button
+                  class="btn btn-success"
+                  @click="showProductMovementReport"
+                >
+                  {{ $t("categories.ShowReport") }}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -615,6 +623,8 @@
 <script>
 import AdminLayout from "../../layouts/AdminLayout.vue";
 import { PAGE_LIMIT } from "../../utils/constants";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
 export default {
   components: {
     AdminLayout,
@@ -899,6 +909,58 @@ export default {
     selectUnit(unit) {
       this.selectedUnit = unit;
       this.oldUnitName = unit.name;
+    },
+    async showProductMovementReport() {
+      const id = this.selectedProduct._id;
+      let movements = [];
+      await this.$http
+        .get(`stock-movements/get-product-movement-report?id=${id}`)
+        .then((res) => {
+          console.log(res);
+          movements = res.data.movements;
+          this.showMovementsReport(movements);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.$toast.error(err.message);
+        });
+    },
+    showMovementsReport(movements) {
+      try {
+        const doc = new jsPDF({
+          orientation: "portrait",
+          unit: "mm",
+          format: "a4",
+        });
+
+        doc.setFont("Arial");
+        doc.setFontSize(16);
+
+        doc.text("اختبار الطباعة", 20, 20);
+
+        const tableHead = ["date"];
+        const tableBody = movements.map((movement) => [
+          new Date(movement.createdAt).toLocaleDateString(),
+        ]);
+        autoTable(doc, {
+          head: tableHead,
+          body: tableBody,
+          startY: 50,
+          // styles: {
+          //   font: "Amiri",
+          //   halign: "right",
+          //   fontSize: 11,
+          // },
+          headStyles: {
+            fillColor: [230, 230, 230],
+          },
+        });
+
+        const pdfBlobUrl = doc.output("bloburl");
+        window.open(pdfBlobUrl, "_blank");
+      } catch (error) {
+        console.log(error.message);
+      }
     },
   },
   async mounted() {

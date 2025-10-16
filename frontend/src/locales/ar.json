@@ -78,7 +78,8 @@
     "note": "تفاصيل",
     "EditProductUnit": "تعديل وحدة",
     "YouCantChangeThisUnitName": "لا يمكنك تغيير بيانات هذه الوحدة",
-    "UnitUpdatedSuccessfully": "تم تحديث الوحدة بنجاح"
+    "UnitUpdatedSuccessfully": "تم تحديث الوحدة بنجاح",
+    "ShowReport": "عرض التقرير"
   },
   "catgories": {
     "enterCategoryName": "ادخل اسم التصنيف",

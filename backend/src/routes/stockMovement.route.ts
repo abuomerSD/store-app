@@ -22,6 +22,10 @@ stockMovementRouter
   .get(stockMovementController.paginateByProductId);
 
 stockMovementRouter
+  .route("/get-product-movement-report")
+  .get(stockMovementController.getProductMovementReport);
+
+stockMovementRouter
   .route("/:id")
   .get(
     authMiddleware,

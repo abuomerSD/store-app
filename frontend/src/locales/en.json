@@ -80,7 +80,8 @@
     "note": "Note",
     "EditProductUnit": "Edit Product Unit",
     "YouCantChangeThisUnitName": "You Can't Change This Unit Data",
-    "UnitUpdatedSuccessfully": "Unit Updated Successfully"
+    "UnitUpdatedSuccessfully": "Unit Updated Successfully",
+    "ShowReport": "Show Report"
   },
   "catgories": {
     "enterCategoryName": "Enter Category Name",

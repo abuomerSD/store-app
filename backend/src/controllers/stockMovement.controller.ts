@@ -58,6 +58,24 @@ const paginateByProductId = asyncHandler(
   }
 );
 
+const getProductMovementReport = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { id } = req.query;
+
+    if (!id || Array.isArray(id) || typeof id !== "string") {
+      res.status(400).json({ message: "Invalid product ID" });
+      throw new Error("No correct product id provided");
+    }
+
+    const productId = new Types.ObjectId(id);
+
+    const { movements, total_rows } =
+      await stockMovementService.getProductMovementReport(productId);
+
+    res.status(200).json(new SuccessResponse({ movements, total_rows }));
+  }
+);
+
 const stockMovementController = {
   findAll,
   findById,
@@ -65,6 +83,7 @@ const stockMovementController = {
   updateById,
   deleteById,
   paginateByProductId,
+  getProductMovementReport,
 };
 
 export default stockMovementController;
