@@ -623,8 +623,9 @@
 <script>
 import AdminLayout from "../../layouts/AdminLayout.vue";
 import { PAGE_LIMIT } from "../../utils/constants";
-import { jsPDF } from "jspdf";
-import autoTable from "jspdf-autotable";
+// import { jsPDF } from "jspdf";
+// import autoTable from "jspdf-autotable";
+// import { generateProductMovementReport } from "../../utils/reportsGenerator";
 export default {
   components: {
     AdminLayout,
@@ -927,37 +928,35 @@ export default {
     },
     showMovementsReport(movements) {
       try {
-        const doc = new jsPDF({
-          orientation: "portrait",
-          unit: "mm",
-          format: "a4",
-        });
-
-        doc.setFont("Arial");
-        doc.setFontSize(16);
-
-        doc.text("اختبار الطباعة", 20, 20);
-
-        const tableHead = ["date"];
-        const tableBody = movements.map((movement) => [
-          new Date(movement.createdAt).toLocaleDateString(),
-        ]);
-        autoTable(doc, {
-          head: tableHead,
-          body: tableBody,
-          startY: 50,
-          // styles: {
-          //   font: "Amiri",
-          //   halign: "right",
-          //   fontSize: 11,
-          // },
-          headStyles: {
-            fillColor: [230, 230, 230],
-          },
-        });
-
-        const pdfBlobUrl = doc.output("bloburl");
-        window.open(pdfBlobUrl, "_blank");
+        // const doc = new jsPDF({
+        //   orientation: "portrait",
+        //   unit: "mm",
+        //   format: "a4",
+        // });
+        // doc.setFont("Arial");
+        // doc.setFontSize(16);
+        // doc.text("اختبار الطباعة", 20, 20);
+        // const tableHead = ["date"];
+        // const tableBody = movements.map((movement) => [
+        //   new Date(movement.createdAt).toLocaleDateString(),
+        // ]);
+        // autoTable(doc, {
+        //   head: tableHead,
+        //   body: tableBody,
+        //   startY: 50,
+        //   // styles: {
+        //   //   font: "Amiri",
+        //   //   halign: "right",
+        //   //   fontSize: 11,
+        //   // },
+        //   headStyles: {
+        //     fillColor: [230, 230, 230],
+        //   },
+        // });
+        // const pdfBlobUrl = doc.output("bloburl");
+        // window.open(pdfBlobUrl, "_blank");
+        // generateProductMovementReport(this.selectedProduct, movements);
+        // generateArabicProductReport({}, this.selectedProduct.name, movements);
       } catch (error) {
         console.log(error.message);
       }
