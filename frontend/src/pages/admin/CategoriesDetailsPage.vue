@@ -624,9 +624,7 @@
 import { API_URL } from "../../config/env";
 import AdminLayout from "../../layouts/AdminLayout.vue";
 import { PAGE_LIMIT } from "../../utils/constants";
-// import { jsPDF } from "jspdf";
-// import autoTable from "jspdf-autotable";
-// import { generateProductMovementReport } from "../../utils/reportsGenerator";
+
 export default {
   components: {
     AdminLayout,
@@ -914,15 +912,6 @@ export default {
     },
     async showProductMovementReport() {
       const id = this.selectedProduct._id;
-      // let movements = [];
-      // await this.$http
-      //   .get(`generate-movements/get-product-movement-report?id=${id}`)
-      //   .then((res) => {})
-      //   .catch((err) => {
-      //     console.error(err);
-      //     this.$toast.error(err.message);
-      //   });
-
       const reqUrl = `${API_URL}stock-movements/generate-product-movement-report?id=${id}`;
       window.open(reqUrl, "_blank");
     },
