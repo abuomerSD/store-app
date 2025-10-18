@@ -621,6 +621,7 @@
 </template>
 
 <script>
+import { API_URL } from "../../config/env";
 import AdminLayout from "../../layouts/AdminLayout.vue";
 import { PAGE_LIMIT } from "../../utils/constants";
 // import { jsPDF } from "jspdf";
@@ -913,54 +914,19 @@ export default {
     },
     async showProductMovementReport() {
       const id = this.selectedProduct._id;
-      let movements = [];
-      await this.$http
-        .get(`stock-movements/get-product-movement-report?id=${id}`)
-        .then((res) => {
-          console.log(res);
-          movements = res.data.movements;
-          this.showMovementsReport(movements);
-        })
-        .catch((err) => {
-          console.error(err);
-          this.$toast.error(err.message);
-        });
+      // let movements = [];
+      // await this.$http
+      //   .get(`generate-movements/get-product-movement-report?id=${id}`)
+      //   .then((res) => {})
+      //   .catch((err) => {
+      //     console.error(err);
+      //     this.$toast.error(err.message);
+      //   });
+
+      const reqUrl = `${API_URL}stock-movements/generate-product-movement-report?id=${id}`;
+      window.open(reqUrl, "_blank");
     },
-    showMovementsReport(movements) {
-      try {
-        // const doc = new jsPDF({
-        //   orientation: "portrait",
-        //   unit: "mm",
-        //   format: "a4",
-        // });
-        // doc.setFont("Arial");
-        // doc.setFontSize(16);
-        // doc.text("اختبار الطباعة", 20, 20);
-        // const tableHead = ["date"];
-        // const tableBody = movements.map((movement) => [
-        //   new Date(movement.createdAt).toLocaleDateString(),
-        // ]);
-        // autoTable(doc, {
-        //   head: tableHead,
-        //   body: tableBody,
-        //   startY: 50,
-        //   // styles: {
-        //   //   font: "Amiri",
-        //   //   halign: "right",
-        //   //   fontSize: 11,
-        //   // },
-        //   headStyles: {
-        //     fillColor: [230, 230, 230],
-        //   },
-        // });
-        // const pdfBlobUrl = doc.output("bloburl");
-        // window.open(pdfBlobUrl, "_blank");
-        // generateProductMovementReport(this.selectedProduct, movements);
-        // generateArabicProductReport({}, this.selectedProduct.name, movements);
-      } catch (error) {
-        console.log(error.message);
-      }
-    },
+    showMovementsReport(movements) {},
   },
   async mounted() {
     this.categoryId = this.$route.params.id;

@@ -21,9 +21,13 @@ stockMovementRouter
   .route("/paginate-by-product-id")
   .get(stockMovementController.paginateByProductId);
 
+// stockMovementRouter
+//   .route("/get-product-movement-report")
+//   .get(stockMovementController.getProductMovementReport);
+
 stockMovementRouter
-  .route("/get-product-movement-report")
-  .get(stockMovementController.getProductMovementReport);
+  .route("/generate-product-movement-report")
+  .get(stockMovementController.generateProductMovementReport);
 
 stockMovementRouter
   .route("/:id")

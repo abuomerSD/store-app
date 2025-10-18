@@ -76,6 +76,31 @@ const getProductMovementReport = asyncHandler(
   }
 );
 
+const generateProductMovementReport = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { id } = req.query;
+
+    if (!id || Array.isArray(id) || typeof id !== "string") {
+      res.status(400).json({ message: "Invalid product ID" });
+      throw new Error("No correct product id provided");
+    }
+
+    const productId = new Types.ObjectId(id);
+
+    const pdfBuffer = await stockMovementService.generateProductMovementReport(
+      productId
+    );
+
+    // Send the PDF as response
+    res.set({
+      "Content-Type": "application/pdf",
+      "Content-Disposition": "inline; filename=product_report.pdf",
+    });
+
+    res.send(pdfBuffer);
+  }
+);
+
 const stockMovementController = {
   findAll,
   findById,
@@ -84,6 +109,7 @@ const stockMovementController = {
   deleteById,
   paginateByProductId,
   getProductMovementReport,
+  generateProductMovementReport,
 };
 
 export default stockMovementController;
