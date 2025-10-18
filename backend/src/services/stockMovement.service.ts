@@ -177,6 +177,9 @@ const generateProductMovementReport = async (id: Types.ObjectId) => {
             <div class="report-title">تقرير حركة المنتج</div>
           </div>
 
+          <div class="product-name">الكود: ${
+            product?.code ? product.code : "product code"
+          }</div>
           <div class="product-name">المنتج: ${
             product?.name ? product.name : "product name"
           }</div>
