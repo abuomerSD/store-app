@@ -57,9 +57,18 @@ const paginate = async (page: number, limit: number) => {
     .skip(skip)
     .sort({ createdAt: -1 });
   const total_rows = (await UserModel.find()).length;
+  const usersArr = users.map((user) => {
+    return {
+      _id: user._id,
+      username: user.username,
+      role: user.role,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+  });
   return {
     total_rows,
-    users,
+    users: usersArr,
   };
 };
 

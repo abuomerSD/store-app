@@ -103,7 +103,10 @@
     "username": "اسم المستخدم",
     "password": "كلمة السر",
     "userSavedSuccessfully": "تم حفظ المستخدم بنجاح",
-    "role": "الدور"
+    "role": "الدور",
+    "UpdateUser": "تحديث مستخدم",
+    "update": "تحديث",
+    "userUpdatedSuccessfully": "تم تحديث المستخدم بنجاح"
   },
   "products": {
     "title": "المنتجات",

@@ -106,7 +106,10 @@
     "password": "Password",
     "addUser": "Add User",
     "userSavedSuccessfully": "User Saved Successfully",
-    "role": "Role"
+    "role": "Role",
+    "UpdateUser": "Update User",
+    "update": "Update",
+    "userUpdatedSuccessfully": "User Updated Successfully"
   },
   "products": {
     "title": "Products",
