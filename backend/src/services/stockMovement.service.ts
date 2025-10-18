@@ -118,6 +118,11 @@ const generateProductMovementReport = async (id: Types.ObjectId) => {
               position: running(header);
             }
 
+            .product-details {
+              display: flex;
+              justify-content: space-between;
+            }
+
             .company-name {
               font-size: 22px;
               font-weight: bold;
@@ -177,12 +182,14 @@ const generateProductMovementReport = async (id: Types.ObjectId) => {
             <div class="report-title">تقرير حركة المنتج</div>
           </div>
 
-          <div class="product-name">الكود: ${
-            product?.code ? product.code : "product code"
-          }</div>
-          <div class="product-name">المنتج: ${
-            product?.name ? product.name : "product name"
-          }</div>
+          <div class="product-details">
+            <div class="product-name">الكود: ${
+              product?.code ? product.code : "product code"
+            }</div>
+            <div class="product-name">المنتج: ${
+              product?.name ? product.name : "product name"
+            }</div>
+          </div>
 
           ${generateTables(movements)}
 
