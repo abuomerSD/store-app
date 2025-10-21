@@ -747,7 +747,7 @@ export default {
         })
         .catch((err) => {
           console.error(err);
-          this.$toast.error(err.message);
+          this.$toast.error(err.response.data.error.message);
         });
     },
     async getCategoryDetails(id) {
@@ -781,7 +781,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-          this.$toast.error(err.message);
+          this.$toast.error(err.response.data.error.message);
         });
     },
     async update() {
@@ -814,7 +814,7 @@ export default {
         })
         .catch((err) => {
           console.error(err);
-          this.$toast.error(err.message);
+          this.$toast.error(err.response.data.error.message);
         });
     },
     async handleSearch() {
@@ -837,7 +837,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-          this.$toast.error(err.message);
+          this.$toast.error(err.response.data.error.message);
         });
     },
     async addIncomingQty() {
@@ -921,7 +921,7 @@ export default {
         })
         .catch((err) => {
           console.error(err);
-          this.$toast.error(err.message);
+          this.$toast.error(err.response.data.error.message);
         });
     },
     async updateProductUnit() {
@@ -954,7 +954,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-          this.$toast.error(err.message);
+          this.$toast.error(err.response.data.error.message);
         });
     },
     selectUnit(unit) {

@@ -137,6 +137,9 @@
   },
   "invoices": {
     "title": "Invoices",
-    "search": "search"
+    "search": "search",
+    "addInvoice": "Add Invoice",
+    "cancel": "Cancel",
+    "save": "Save"
   }
 }

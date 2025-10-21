@@ -106,3 +106,10 @@ export interface IOperation {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface Iinvoice {
+  _id?: Types.ObjectId;
+  invoiceNumber: number;
+  info: String;
+  file: String;
+}

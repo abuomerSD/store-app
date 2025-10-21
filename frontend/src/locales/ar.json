@@ -134,6 +134,9 @@
   },
   "invoices": {
     "title": "الفواتير",
-    "search": "بحث"
+    "search": "بحث",
+    "addInvoice": "اضافة فاتورة",
+    "cancel": "الغاء",
+    "save": "حفظ"
   }
 }
