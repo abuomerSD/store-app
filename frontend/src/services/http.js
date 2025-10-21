@@ -24,7 +24,7 @@ export const http = {
     return res.data;
   },
   delete: async (url, id) => {
-    const res = axiosInstance.delete(`${url}/${id}`);
+    const res = await axiosInstance.delete(`${url}/${id}`);
     return res.data;
   },
 };

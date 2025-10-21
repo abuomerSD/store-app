@@ -11,6 +11,7 @@ import UsersPage from "../pages/admin/UsersPage.vue";
 import ProductsPage from "../pages/admin/ProductsPage.vue";
 import CustomerProductsPage from "../pages/customer/ProductsPage.vue";
 import { API_URL } from "../config/env";
+import AdminInvoicesPage from "../pages/admin/AdminInvoicesPage.vue";
 
 const routes = [
   { path: "/", redirect: "/customer/products" },
@@ -50,6 +51,12 @@ const routes = [
     path: "/admin/products",
     name: "AdminProducts",
     component: ProductsPage,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/admin/invoices",
+    name: "AdminInvoices",
+    component: AdminInvoicesPage,
     meta: { requiresAuth: true },
   },
   { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFoundPage },

@@ -75,6 +75,12 @@
                     data-bs-target="#editProductModal"
                     @click="selectProduct(product)"
                   ></i>
+                  <i
+                    class="fa-solid fa-lg fa-trash text-danger icon ms-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteProductModal"
+                    @click="selectProduct(product)"
+                  ></i>
                   <button
                     class="btn btn-success ms-2"
                     @click="selectProduct(product)"
@@ -171,6 +177,51 @@
                 @click="save"
               >
                 {{ $t("units.save") }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Delete Product Modal -->
+
+      <div
+        class="modal fade"
+        id="deleteProductModal"
+        tabindex="-1"
+        aria-labelledby="deleteProductModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="deleteProductModalLabel">
+                {{ $t("categories.DeleteProduct") }}
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              {{ $t("categories.DoYouWantToDeleteThisProduct") }}
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                {{ $t("units.cancel") }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-dismiss="modal"
+                @click="deleteProduct"
+              >
+                {{ $t("categories.Yes") }}
               </button>
             </div>
           </div>
@@ -915,7 +966,25 @@ export default {
       const reqUrl = `${API_URL}stock-movements/generate-product-movement-report?id=${id}`;
       window.open(reqUrl, "_blank");
     },
-    showMovementsReport(movements) {},
+    async deleteProduct() {
+      const id = this.selectedProduct._id;
+      if (!id) {
+        this.$toast.error("select product first");
+        return;
+      }
+
+      await this.$http
+        .delete("products", id)
+        .then(async (res) => {
+          console.log(res);
+          this.$toast.success(this.$t("categories.ProductDeletedSuccessfully"));
+          await this.paginate();
+        })
+        .catch((err) => {
+          console.error(err);
+          this.$toast.error(err.response.data.error.message);
+        });
+    },
   },
   async mounted() {
     this.categoryId = this.$route.params.id;

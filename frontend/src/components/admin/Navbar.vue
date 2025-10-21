@@ -27,20 +27,17 @@
             <router-link to="/admin/categories" class="nav-link text-white">{{
               $t("navbar.categories")
             }}</router-link>
-            <!-- <a class="nav-link text-white" href="#">{{
-              $t("navbar.categories")
-            }}</a> -->
           </li>
           <li class="nav-item">
             <router-link to="/admin/products" class="nav-link text-white">{{
               $t("navbar.products")
             }}</router-link>
           </li>
-          <!-- <li class="nav-item">
-            <router-link to="/admin/units" class="nav-link text-white">{{
-              $t("navbar.units")
+          <li class="nav-item">
+            <router-link to="/admin/invoices" class="nav-link text-white">{{
+              $t("navbar.invoices")
             }}</router-link>
-          </li> -->
+          </li>
           <li class="nav-item">
             <router-link to="/admin/users" class="nav-link text-white">{{
               $t("navbar.users")

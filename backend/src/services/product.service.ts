@@ -64,6 +64,12 @@ const deleteById = async (
   id: string,
   userId: Types.ObjectId
 ): Promise<IProduct | null> => {
+  // check if product has stock movements
+  const productMovements = await StockMovementModel.find({ product: id });
+  if (productMovements.length > 0) {
+    throw new Error("this product have stock movements");
+    return null;
+  }
   const deleted = await ProductModel.findOneAndDelete({ _id: id });
   if (deleted) {
     const operation: IOperation = {

@@ -25,7 +25,8 @@
     "language": "Language",
     "units": "Units",
     "users": "Users",
-    "DoYouWantToLogout": "Do You Want To Logout"
+    "DoYouWantToLogout": "Do You Want To Logout",
+    "invoices": "Invoices"
   },
   "categories": {
     "search": "search",
@@ -81,7 +82,11 @@
     "EditProductUnit": "Edit Product Unit",
     "YouCantChangeThisUnitName": "You Can't Change This Unit Data",
     "UnitUpdatedSuccessfully": "Unit Updated Successfully",
-    "ShowReport": "Show Report"
+    "ShowReport": "Show Report",
+    "DeleteProduct": "Delete Product",
+    "DoYouWantToDeleteThisProduct": "Do You Want To Delete This Product ?",
+    "Yes": "Yes",
+    "ProductDeletedSuccessfully": "Product Deleted Successfully"
   },
   "catgories": {
     "enterCategoryName": "Enter Category Name",
@@ -129,5 +134,9 @@
     "products": "Products",
     "users": "Users",
     "title": "Dashboard"
+  },
+  "invoices": {
+    "title": "Invoices",
+    "search": "search"
   }
 }

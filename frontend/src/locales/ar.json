@@ -25,7 +25,8 @@
     "language": "اللغة",
     "units": "الوحدات",
     "users": "المستخدمين",
-    "DoYouWantToLogout": "هل تريد تسجيل الخروج"
+    "DoYouWantToLogout": "هل تريد تسجيل الخروج",
+    "invoices": "الفواتير"
   },
   "categories": {
     "search": "بحث",
@@ -79,7 +80,11 @@
     "EditProductUnit": "تعديل وحدة",
     "YouCantChangeThisUnitName": "لا يمكنك تغيير بيانات هذه الوحدة",
     "UnitUpdatedSuccessfully": "تم تحديث الوحدة بنجاح",
-    "ShowReport": "عرض التقرير"
+    "ShowReport": "عرض التقرير",
+    "DeleteProduct": "حذف منتج",
+    "DoYouWantToDeleteThisProduct": "هل تريد حذف هذا المنتج",
+    "Yes": "نعم",
+    "ProductDeletedSuccessfully": "تم حذف المنتج بنجاح"
   },
   "catgories": {
     "enterCategoryName": "ادخل اسم التصنيف",
@@ -126,5 +131,9 @@
     "products": "المنتجات",
     "users": "المستخدمين",
     "title": "الصفحة الرئيسية"
+  },
+  "invoices": {
+    "title": "الفواتير",
+    "search": "بحث"
   }
 }
