@@ -109,7 +109,9 @@ export interface IOperation {
 
 export interface Iinvoice {
   _id?: Types.ObjectId;
-  invoiceNumber: number;
+  invoiceNumber: String;
+  customerName: String;
   info: String;
   file: String;
+  createdBy: Types.ObjectId;
 }

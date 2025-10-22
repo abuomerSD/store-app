@@ -140,6 +140,10 @@
     "search": "search",
     "addInvoice": "Add Invoice",
     "cancel": "Cancel",
-    "save": "Save"
+    "save": "Save",
+    "selectfile": "select file",
+    "invoiceNumber": "Invoice Number",
+    "customerName": "Customer Name",
+    "info": "Info"
   }
 }

@@ -67,7 +67,16 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">...</div>
+          <div class="modal-body">
+            <label for="">{{ $t("invoices.invoiceNumber") }}</label>
+            <input type="text" class="form-control" v-model="invoiceNumber" />
+            <label for="">{{ $t("invoices.customerName") }}</label>
+            <input type="text" class="form-control" v-model="customerName" />
+            <label for="">{{ $t("invoices.info") }}</label>
+            <input type="text" class="form-control" v-model="info" />
+            <label for="">{{ $t("invoices.selectfile") }}</label>
+            <input type="file" class="form-control" @change="onFileChange" />
+          </div>
           <div class="modal-footer">
             <button
               type="button"
@@ -76,7 +85,7 @@
             >
               {{ $t("invoices.cancel") }}
             </button>
-            <button type="button" class="btn btn-primary">
+            <button type="button" class="btn btn-primary" @click="save">
               {{ $t("invoices.save") }}
             </button>
           </div>
@@ -91,6 +100,35 @@ import AdminLayout from "../../layouts/AdminLayout.vue";
 export default {
   components: {
     AdminLayout,
+  },
+  data() {
+    return {
+      file: null,
+      invoiceNumber: "",
+      customerName: "",
+      info: "",
+    };
+  },
+  methods: {
+    onFileChange(e) {
+      this.file = e.target.files[0];
+    },
+    async save() {
+      const payload = {
+        invoiceNumber: this.invoiceNumber,
+        customerName: this.customerName,
+        info: this.info,
+      };
+      await this.$http
+        .upload("invoices", this.file, payload)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.error(err.message);
+          this.$toast.error(err.message);
+        });
+    },
   },
 };
 </script>

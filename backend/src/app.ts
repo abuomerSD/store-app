@@ -17,9 +17,10 @@ import { unitDefinitionRouter } from "./routes/unitDefinition.route";
 import { dashboardRouter } from "./routes/dashboard.route";
 import { limiter } from "./utils/rateLimiter";
 import helmet from "helmet";
-import mongoSanitize from "express-mongo-sanitize";
+// import mongoSanitize from "express-mongo-sanitize";
 // import xss from "xss-clean";
 import hpp from "hpp";
+import { invoiceRouter } from "./routes/invoice.route";
 
 const app = express();
 
@@ -69,6 +70,7 @@ app.use("/api/operations", operationRouter);
 app.use("/api/stock-movements", stockMovementRouter);
 app.use("/api/units", unitDefinitionRouter);
 app.use("/api/dashboard", dashboardRouter);
+app.use("/api/invoices", invoiceRouter);
 
 // not found middleware
 

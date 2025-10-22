@@ -137,6 +137,10 @@
     "search": "بحث",
     "addInvoice": "اضافة فاتورة",
     "cancel": "الغاء",
-    "save": "حفظ"
+    "save": "حفظ",
+    "selectfile": "اختر ملف",
+    "invoiceNumber": "رقم الفاتورة",
+    "customerName": "اسم العميل",
+    "info": "البيان"
   }
 }

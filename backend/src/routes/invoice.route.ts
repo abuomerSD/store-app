@@ -1,31 +1,31 @@
-import express from "express";
-import invoiceController from "../controllers/product.controller";
+import express, { Request } from "express";
+import invoiceController from "../controllers/invoice.controller";
+import multer from "multer";
+import { authMiddleware, roleAuthMiddleware } from "../middlewares/auth";
 export const invoiceRouter = express.Router();
+
+const storage = multer.diskStorage({
+  destination: "./uploads",
+  filename: (req: Request, file, cb) =>
+    cb(null, Date.now() + "-" + file.originalname),
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 100 * 1024 * 1024 }, // 100 MB limit
+});
 
 invoiceRouter
   .route("/")
-  .get(invoiceController.findAll)
-  .post(invoiceController.save);
+  .post(
+    authMiddleware,
+    roleAuthMiddleware(["admin", "user"]),
+    upload.single("file"),
+    invoiceController.save
+  );
 
 invoiceRouter.route("/paginate").get(invoiceController.paginate);
-invoiceRouter.route("/paginate-all").get(invoiceController.paginateAll);
 invoiceRouter.route("/search").get(invoiceController.search);
-invoiceRouter.route("/search-all").get(invoiceController.searchAll);
-invoiceRouter.route("/add-unit/:id").post(invoiceController.addUnit);
-invoiceRouter
-  .route("/calculate-current-stock")
-  .get(invoiceController.calculateCurrentStock);
-
-invoiceRouter.route("/incoming-qty").post(invoiceController.addIncomingQty);
-invoiceRouter.route("/outgoing-qty").post(invoiceController.addOutgoingQty);
-
-invoiceRouter
-  .route("/paginate-products-under-demand-limit")
-  .get(invoiceController.paginateProductsUnderDemandLimit);
-
-invoiceRouter
-  .route("/update-unit-by-name/:productId")
-  .put(invoiceController.updateUnitByName);
 
 invoiceRouter
   .route("/:id")

@@ -27,4 +27,21 @@ export const http = {
     const res = await axiosInstance.delete(`${url}/${id}`);
     return res.data;
   },
+  upload: async (url, file, extraData = {}) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    Object.keys(extraData).forEach((key) => {
+      formData.append(key, extraData[key]);
+    });
+
+    const res = await axiosInstance.post(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      maxContentLength: 100 * 1024 * 1024, // limit 100MB
+    });
+
+    return res.data;
+  },
 };
