@@ -141,6 +141,12 @@
     "selectfile": "اختر ملف",
     "invoiceNumber": "رقم الفاتورة",
     "customerName": "اسم العميل",
-    "info": "البيان"
+    "info": "البيان",
+    "InvoiceSavedSuccessfully": "تم حفظ الفاتورة بنجاح",
+    "PleaseFillAllFields": "من فضلك املأ جميع الحقول",
+    "Date": "التاريخ",
+    "InvoiceNumber": "رقم الفاتورة",
+    "CustomerName": "اسم العميل",
+    "Actions": "العمليات"
   }
 }

@@ -144,6 +144,12 @@
     "selectfile": "select file",
     "invoiceNumber": "Invoice Number",
     "customerName": "Customer Name",
-    "info": "Info"
+    "info": "Info",
+    "InvoiceSavedSuccessfully": "Invoice Saved Successfully",
+    "PleaseFillAllFields": "Please Fill All Fields",
+    "Date": "Date",
+    "InvoiceNumber": "Invoice Number",
+    "CustomerName": "Customer Name",
+    "Actions": "Actions"
   }
 }

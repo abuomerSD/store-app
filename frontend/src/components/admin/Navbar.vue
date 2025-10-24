@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-      <a class="navbar-brand text-white" href="#">Store App</a>
+      <a class="navbar-brand text-white" href="#">Shalfa</a>
       <button
         class="navbar-toggler"
         type="button"

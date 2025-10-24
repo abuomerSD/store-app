@@ -3,6 +3,7 @@ import asyncHandler from "express-async-handler";
 import { FailResponse, SuccessResponse } from "../utils/responseTypes";
 import { Types } from "mongoose";
 import invoiceService from "../services/invoice.service";
+import fs from "fs";
 
 const findById = asyncHandler(async (req: Request, res: Response) => {});
 
@@ -31,9 +32,33 @@ const updateById = asyncHandler(async (req: Request, res: Response) => {});
 const deleteById = asyncHandler(async (req: Request, res: Response) => {});
 
 // paginate invoices in one category
-const paginate = asyncHandler(async (req: Request, res: Response) => {});
+const paginate = asyncHandler(async (req: Request, res: Response) => {
+  const page = Number(req.params.page) || 1;
+  const limit = Number(req.params.limit) || 10;
+
+  const { invoices, total_rows } = await invoiceService.paginate(page, limit);
+
+  res.status(200).json(new SuccessResponse({ invoices, total_rows }));
+});
 
 const search = asyncHandler(async (req: Request, res: Response) => {});
+
+const getInvoiceFile = asyncHandler(async (req: Request, res: Response) => {
+  const filePath = req.query.filePath as string;
+  if (!filePath) {
+    throw new Error("No File Found for this invoice");
+  }
+
+  if (!fs.existsSync(filePath)) {
+    throw new Error("File not found");
+  }
+
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", "inline; filename=" + "Invoice");
+
+  const fileStream = fs.createReadStream(filePath);
+  fileStream.pipe(res);
+});
 
 const invoiceController = {
   findById,
@@ -42,6 +67,7 @@ const invoiceController = {
   deleteById,
   paginate,
   search,
+  getInvoiceFile,
 };
 
 export default invoiceController;
