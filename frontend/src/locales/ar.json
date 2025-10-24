@@ -147,6 +147,8 @@
     "Date": "التاريخ",
     "InvoiceNumber": "رقم الفاتورة",
     "CustomerName": "اسم العميل",
-    "Actions": "العمليات"
+    "Actions": "العمليات",
+    "deleteinvoice": "حذف الفاتورة",
+    "Delete": "حذف"
   }
 }

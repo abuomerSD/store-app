@@ -62,7 +62,6 @@
 
     <!-- Modals -->
     <!-- Add Invoice Modal -->
-    <!-- Modal -->
     <div
       class="modal fade"
       id="addInvoiceModal"
@@ -114,6 +113,45 @@
               data-bs-dismiss="modal"
             >
               {{ $t("invoices.save") }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Invoice Modal  -->
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="deleteInvoiceModal"
+      tabindex="-1"
+      aria-labelledby="deleteInvoiceModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="deleteInvoiceModalLabel">
+              {{ $t("invoices.deleteinvoice") }}
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">...</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              {{ $t("invoices.cancel") }}
+            </button>
+            <button type="button" class="btn btn-danger">
+              {{ $t("invoices.Delete") }}
             </button>
           </div>
         </div>
@@ -188,7 +226,7 @@ export default {
         .then((res) => {
           console.log(res);
           this.invoices = res.data.invoices;
-          this.total_rows = res.total_rows;
+          this.total_rows = res.data.total_rows;
         })
         .catch((err) => {
           console.error(err.message);

@@ -29,12 +29,19 @@ const save = asyncHandler(async (req: Request, res: Response) => {
 
 const updateById = asyncHandler(async (req: Request, res: Response) => {});
 
-const deleteById = asyncHandler(async (req: Request, res: Response) => {});
+const deleteById = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!id) {
+    throw new Error("Nod id found");
+  }
+  const deleted = await invoiceService.deleteById(new Types.ObjectId(id));
+  res.status(200).json(new SuccessResponse({ invoice: deleted }));
+});
 
 // paginate invoices in one category
 const paginate = asyncHandler(async (req: Request, res: Response) => {
-  const page = Number(req.params.page) || 1;
-  const limit = Number(req.params.limit) || 10;
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
 
   const { invoices, total_rows } = await invoiceService.paginate(page, limit);
 

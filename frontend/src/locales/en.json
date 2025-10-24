@@ -150,6 +150,8 @@
     "Date": "Date",
     "InvoiceNumber": "Invoice Number",
     "CustomerName": "Customer Name",
-    "Actions": "Actions"
+    "Actions": "Actions",
+    "deleteinvoice": "Delete Invoice?",
+    "Delete": "Delete"
   }
 }
