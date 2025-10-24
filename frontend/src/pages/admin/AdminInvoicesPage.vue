@@ -207,13 +207,13 @@ export default {
         .upload("invoices", this.file, payload)
         .then(async (res) => {
           console.log(res);
+          await this.paginate();
           this.file = null;
           this.invoiceNumber = "";
           this.customerName = "";
           this.info = "";
           this.$refs.fileChooser.value = "";
           this.$toast.success(this.$t("invoices.InvoiceSavedSuccessfully"));
-          await this.paginate();
         })
         .catch((err) => {
           console.error(err.message);

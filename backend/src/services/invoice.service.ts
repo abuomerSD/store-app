@@ -21,7 +21,7 @@ const save = async (
 
 const paginate = async (page: number, limit: number) => {
   const skip = (page - 1) * limit;
-  const invoices = await InvoiceModel.find()
+  const invoices = await InvoiceModel.find({})
     .limit(limit)
     .skip(skip)
     .sort({ createdAt: -1 });

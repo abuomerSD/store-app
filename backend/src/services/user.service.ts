@@ -14,7 +14,7 @@ const findAll = async (): Promise<IUser[]> => {
       updatedAt: user.updatedAt,
     };
   });
-  console.log("arr", arr);
+  // console.log("arr", arr);
   return arr;
 };
 
