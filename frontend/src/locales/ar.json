@@ -149,6 +149,8 @@
     "CustomerName": "اسم العميل",
     "Actions": "العمليات",
     "deleteinvoice": "حذف الفاتورة",
-    "Delete": "حذف"
+    "Delete": "حذف",
+    "InvoiceDeletedSuccessfully": "تم حذف الفاتورة بنجاح",
+    "DoYouWantToDeleteThisInvoice": "هل تريد حذف الفاتورة؟"
   }
 }

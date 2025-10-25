@@ -152,6 +152,8 @@
     "CustomerName": "Customer Name",
     "Actions": "Actions",
     "deleteinvoice": "Delete Invoice?",
-    "Delete": "Delete"
+    "Delete": "Delete",
+    "InvoiceDeletedSuccessfully": "Invoice Deleted Successfully",
+    "DoYouWantToDeleteThisInvoice": "Do You Want To Delete This Invoice"
   }
 }

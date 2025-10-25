@@ -14,7 +14,7 @@ const save = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user;
   if (req.file && user) {
     const createdBy = new Types.ObjectId(user.id);
-    const saved = invoiceService.save(
+    const saved = await invoiceService.save(
       invoiceNumber,
       customerName,
       info,
@@ -48,7 +48,19 @@ const paginate = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json(new SuccessResponse({ invoices, total_rows }));
 });
 
-const search = asyncHandler(async (req: Request, res: Response) => {});
+const search = asyncHandler(async (req: Request, res: Response) => {
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+  const search = req.query.search as string;
+
+  const { invoices, total_rows } = await invoiceService.search(
+    page,
+    limit,
+    search
+  );
+
+  res.status(200).json(new SuccessResponse({ invoices, total_rows }));
+});
 
 const getInvoiceFile = asyncHandler(async (req: Request, res: Response) => {
   const filePath = req.query.filePath as string;

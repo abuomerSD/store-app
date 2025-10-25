@@ -112,6 +112,6 @@ export interface Iinvoice {
   invoiceNumber: String;
   customerName: String;
   info: String;
-  file: String;
+  file: string;
   createdBy: Types.ObjectId;
 }

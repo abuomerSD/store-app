@@ -44,7 +44,12 @@
                   class="fa-solid fa-lg fa-eye icon text-success"
                   @click="showInvoiceFile(invoice.file)"
                 ></i>
-                <i class="fa-solid fa-trash fa-lg icon text-danger"></i>
+                <i
+                  class="fa-solid fa-trash fa-lg icon text-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteInvoiceModal"
+                  @click="selectInvoice(invoice)"
+                ></i>
               </td>
             </tr>
           </tbody>
@@ -141,7 +146,9 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">...</div>
+          <div class="modal-body">
+            {{ $t("invoices.DoYouWantToDeleteThisInvoice") }}
+          </div>
           <div class="modal-footer">
             <button
               type="button"
@@ -150,7 +157,12 @@
             >
               {{ $t("invoices.cancel") }}
             </button>
-            <button type="button" class="btn btn-danger">
+            <button
+              type="button"
+              class="btn btn-danger"
+              @click="deleteInvoice"
+              data-bs-dismiss="modal"
+            >
               {{ $t("invoices.Delete") }}
             </button>
           </div>
@@ -179,6 +191,7 @@ export default {
       page: 1,
       limit: PAGE_LIMIT,
       search: "",
+      selectedInvoice: null,
     };
   },
   methods: {
@@ -233,12 +246,46 @@ export default {
           this.$toast.error(err.message);
         });
     },
-    async handleSearch() {},
+    async handleSearch() {
+      if (this.search === "") {
+        await this.paginate();
+        return;
+      }
+      await this.$http
+        .get(
+          `invoices/search?page=${this.page}&limit=${this.limit}&search=${this.search}`
+        )
+        .then((res) => {
+          console.log(res);
+          this.invoices = res.data.invoices;
+          this.total_rows = res.data.total_rows;
+        })
+        .catch((err) => {
+          console.error(err.message);
+          this.$toast.error(err.message);
+        });
+    },
+    async deleteInvoice() {
+      await this.$http
+        .delete("invoices", this.selectedInvoice._id)
+        .then(async (res) => {
+          console.log(res);
+          await this.paginate();
+          this.$toast.success(this.$t("invoices.InvoiceDeletedSuccessfully"));
+        })
+        .catch((err) => {
+          console.error(err.message);
+          this.$toast.error(err.message);
+        });
+    },
     async showInvoiceFile(filePath) {
       window.open(
         `${API_URL}invoices/get-invoice-file?filePath=${filePath}`,
         "_blank"
       );
+    },
+    selectInvoice(invoice) {
+      this.selectedInvoice = invoice;
     },
   },
   async mounted() {
@@ -246,7 +293,7 @@ export default {
   },
   watch: {
     async page() {
-      if (!this.search) {
+      if (this.search === "") {
         await this.paginate();
       } else {
         await this.handleSearch();
