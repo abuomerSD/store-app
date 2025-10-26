@@ -12,7 +12,7 @@ export const connectDB = async () => {
     const conn = await mongoose.connect(MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      autoIndex: false,
+      autoIndex: true,
     });
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);

@@ -24,12 +24,12 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    autoIndex: false,
+    autoIndex: true,
   }
 );
 
 // Indexes
-// userSchema.index({ username: 1 });
+userSchema.index({ username: 1 });
 // userSchema.index({ email: 1 });
 // userSchema.index({ role: 1 });
 // userSchema.index({ isActive: 1 });

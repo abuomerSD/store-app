@@ -30,7 +30,7 @@ const invoiceSchema = new Schema<Iinvoice>(
   },
   {
     timestamps: true,
-    autoIndex: false,
+    // autoIndex: true,
   }
 );
 
