@@ -81,7 +81,7 @@ router.beforeEach(async (to, from, next) => {
     .catch((err) => {
       console.error(err);
     });
-  if (to.meta.requiresAuth && (!auth_token || !isAuthenticated)) {
+  if (to.meta.requiresAuth && !auth_token && !isAuthenticated) {
     next("/admin/login");
   } else {
     next();
