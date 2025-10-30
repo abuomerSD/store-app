@@ -125,7 +125,8 @@
     "Quantity": "Quantity",
     "DemandLimit": "Demand Limit",
     "currentStock": "Current Stock",
-    "DemanadLimit": "Demand Limit"
+    "DemanadLimit": "Demand Limit",
+    "actions": "Actions"
   },
   "dashborad": {
     "categories": "Categories"

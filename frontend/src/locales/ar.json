@@ -122,7 +122,8 @@
     "Quantity": "الكمية",
     "DemandLimit": "حد الطلب",
     "currentStock": "المخزون الحالي",
-    "DemanadLimit": "حد الطلب"
+    "DemanadLimit": "حد الطلب",
+    "actions": "العمليات"
   },
   "dashborad": {
     "categories": "التصنيفات"

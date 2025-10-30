@@ -24,6 +24,7 @@
               <th>{{ $t("products.categoryName") }}</th>
               <th>{{ $t("products.ChooseUnit") }}</th>
               <th>{{ $t("products.Quantity") }}</th>
+              <th>{{ $t("products.actions") }}</th>
             </tr>
           </thead>
 
@@ -55,6 +56,16 @@
               </td>
 
               <td>{{ product.currentStock ?? "-" }}</td>
+              <td>
+                <button
+                  class="btn btn-info ms-2"
+                  @click="showProductMovement(product)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#ProductMovementReportModal"
+                >
+                  {{ $t("categories.report") }}
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -68,11 +79,92 @@
           aria-controls="my-table"
         />
       </div>
+
+      <!-- Modals -->
+      <!-- Product Movement Report Modal -->
+
+      <div
+        class="modal fade"
+        id="ProductMovementReportModal"
+        tabindex="-1"
+        aria-labelledby="ProductMovementReportModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="ProductMovementReportModalLabel">
+                {{ $t("categories.productMovementReport") }}
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="d-flex justify-content-between">
+                <h5>{{ selectedProduct.name }}</h5>
+                <div class="d-flex">
+                  <p class="ms-2">{{ $t("categories.CurrentStock") }}:</p>
+                  <strong class="ms-2">{{
+                    this.selectedProduct.currentStock
+                  }}</strong>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>{{ $t("categories.createdAt") }}</th>
+                      <th>{{ $t("categories.MovementType") }}</th>
+                      <th>{{ $t("categories.Quantity") }}</th>
+                      <th>{{ $t("categories.note") }}</th>
+                      <th>{{ $t("categories.createdBy") }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(movement, index) in movements" :key="index">
+                      <td>{{ index + 1 }}</td>
+                      <td>
+                        {{ new Date(movement.createdAt).toLocaleDateString() }}
+                      </td>
+                      <td>{{ movement.movementType }}</td>
+                      <td>{{ movement.quantity }}</td>
+                      <td>{{ movement.note }}</td>
+                      <td>{{ movement.createdBy.username }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="d-flex justify-content-center">
+                <b-pagination
+                  v-model="movements_page"
+                  :total-rows="movements_total_rows"
+                  :per-page="movements_limit"
+                  aria-controls="my-table"
+                />
+              </div>
+              <div class="d-flex justify-content-center align-items-center">
+                <button
+                  class="btn btn-success"
+                  @click="showProductMovementReport"
+                >
+                  {{ $t("categories.ShowReport") }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </CustomerLayout>
 </template>
 
 <script>
+import { API_URL } from "../../config/env";
 import CustomerLayout from "../../layouts/CustomerLayout.vue";
 import { PAGE_LIMIT } from "../../utils/constants";
 
@@ -85,6 +177,11 @@ export default {
       page: 1,
       limit: PAGE_LIMIT,
       total_rows: 0,
+      selectedProduct: {},
+      movements: [],
+      movements_page: 1,
+      movements_limit: PAGE_LIMIT,
+      movements_total_rows: 0,
     };
   },
   methods: {
@@ -144,6 +241,27 @@ export default {
         selectedUnit: "", // default empty, or "piece" if you prefer
       }));
     },
+    async showProductMovement(product) {
+      this.selectedProduct = product;
+      await this.$http
+        .get(
+          `stock-movements/paginate-by-product-id?pageStr=${this.movements_page}&limitStr=${this.movements_limit}&id=${this.selectedProduct._id}`
+        )
+        .then((res) => {
+          console.log(res);
+          this.movements = res.data.movements;
+          this.movements_total_rows = res.data.total_rows;
+        })
+        .catch((err) => {
+          console.error(err);
+          this.$toast.error(err.response.data.error.message);
+        });
+    },
+    async showProductMovementReport() {
+      const id = this.selectedProduct._id;
+      const reqUrl = `${API_URL}stock-movements/generate-product-movement-report?id=${id}`;
+      window.open(reqUrl, "_blank");
+    },
   },
 
   async mounted() {
@@ -154,6 +272,9 @@ export default {
     async page() {
       if (!this.search) await this.paginate();
       else await this.handleSearch();
+    },
+    async movements_page(val) {
+      await this.showProductMovement(this.selectedProduct);
     },
   },
 };
