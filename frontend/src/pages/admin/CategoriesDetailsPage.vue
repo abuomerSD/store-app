@@ -31,8 +31,8 @@
           ></i>
         </div>
       </div>
-      <div class="table-responsive mt-3">
-        <table class="table">
+      <div class="table-responsive mt-3 bordered-table">
+        <table class="table table-striped table-hover align-middle shadow-sm">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -336,7 +336,9 @@
               >
                 {{ $t("categories.save") }}
               </button>
-              <table class="table">
+              <table
+                class="table table-striped table-hover align-middle shadow-sm"
+              >
                 <thead>
                   <tr>
                     <th>{{ $t("categories.UnitName") }}</th>
@@ -564,8 +566,10 @@
                   }}</strong>
                 </div>
               </div>
-              <div class="table-responsive">
-                <table class="table">
+              <div class="table-responsive bordered-table">
+                <table
+                  class="table table-striped table-hover align-middle shadow-sm"
+                >
                   <thead>
                     <tr>
                       <th>#</th>

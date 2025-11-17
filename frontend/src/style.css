@@ -8,3 +8,30 @@
   width: 200px;
   background-color: red;
 }
+
+/* tables */
+
+.bordered-table {
+  border: 2px solid #eee;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+table {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table thead tr th {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f0f4f8 !important; /* soft hover */
+}
+
+.table td, .table th {
+  vertical-align: middle;
+}

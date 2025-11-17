@@ -13,9 +13,9 @@
         />
       </div>
 
-      <div class="table-responsive mt-3">
-        <table class="table">
-          <thead>
+      <div class="table-responsive mt-3 bordered-table">
+        <table class="table table-striped table-hover align-middle shadow-sm">
+          <thead class="table-light">
             <tr>
               <th>#</th>
               <th>{{ $t("products.code") }}</th>

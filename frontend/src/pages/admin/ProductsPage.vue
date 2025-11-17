@@ -21,8 +21,8 @@
         </button>
       </div>
 
-      <div class="table-responsive mt-3">
-        <table class="table">
+      <div class="table-responsive mt-3 bordered-table">
+        <table class="table table-striped table-hover align-middle shadow-sm">
           <thead>
             <tr>
               <th>#</th>
@@ -102,8 +102,10 @@
               ></button>
             </div>
             <div class="modal-body">
-              <div class="table-responsive mt-3">
-                <table class="table">
+              <div class="table-responsive mt-3 bordered-table">
+                <table
+                  class="table table-striped table-hover align-middle shadow-sm"
+                >
                   <thead>
                     <tr>
                       <th scope="col">#</th>
