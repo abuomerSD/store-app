@@ -113,8 +113,10 @@
                   }}</strong>
                 </div>
               </div>
-              <div class="table-responsive">
-                <table class="table">
+              <div class="table-responsive bordered-table">
+                <table
+                  class="table table-striped table-hover align-middle shadow-sm"
+                >
                   <thead>
                     <tr>
                       <th>#</th>
