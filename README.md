@@ -4,11 +4,12 @@ A full-stack store management system built with Vue.js (Options API) and Express
 
 🚀 Features
 
-Secure JWT authentication and bcrypt password hashing
-MongoDB database for storing inventory, users, and sales
-Joi validation and express-async-handler for error handling
-Helmet and express-rate-limit for enhanced security
-Responsive and clean Vue.js frontend
+- Secure JWT authentication with bcrypt password hashing.
+- Low Stock Management Page that displays all products with quantities below a defined limit.
+- MongoDB database for storing inventory, users, and sales.
+- Joi validation and express-async-handler for robust error handling.
+- Helmet and express-rate-limit for enhanced API security.
+- Responsive and clean Vue.js frontend UI.
 
 🛠️ Tech Stack
 
